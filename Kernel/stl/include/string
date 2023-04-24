@@ -1,0 +1,10 @@
+#include <cstdint>
+#include <char_traits.hpp>
+#include <memory>
+
+namespace std
+{
+	template <typename CharType, typename CharTraits = char_traits<CharType>, typename Allocator = std::allocator<CharType>>
+	class basic_string
+	{};
+}

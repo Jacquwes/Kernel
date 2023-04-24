@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{c3fecd53-a2f1-435e-9e7c-947c4ae3c8a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{dfa68707-1bea-4172-9800-0bb1057af068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{ff164743-c107-4e63-bcaf-97ef3e451961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\kernel">
+      <UniqueIdentifier>{6691c884-4acc-47a9-a4e7-92b8f4cc3c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stl">
+      <UniqueIdentifier>{c0f4aaa8-0773-408e-ac06-61bfd3e57c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stl\src">
+      <UniqueIdentifier>{89009350-ea8a-40b2-af4f-3a7c380d098f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stl\include">
+      <UniqueIdentifier>{ed4cb9c0-d2d1-4b9e-8dd2-6c9d83dfc370}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="linker.ld">
+      <Filter>config</Filter>
+    </None>
+    <None Include="grub.cfg">
+      <Filter>config</Filter>
+    </None>
+    <None Include="src\boot.asm">
+      <Filter>src</Filter>
+    </None>
+    <None Include="Makefile">
+      <Filter>config</Filter>
+    </None>
+    <None Include="stl\include\cstdint">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\string">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\char_traits.hpp">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\cstdio">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\memory">
+      <Filter>stl\include</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\kernel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\char_traits.cpp">
+      <Filter>stl\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\kernel\display.hpp">
+      <Filter>include\kernel</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
