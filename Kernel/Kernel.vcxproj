@@ -156,11 +156,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="grub.cfg" />
+    <None Include="kernel\src\boot.asm" />
     <None Include="linker.ld" />
     <None Include="Makefile">
       <FileType>Document</FileType>
     </None>
-    <None Include="src\boot.asm" />
     <None Include="stl\include\char_traits.hpp">
       <FileType>CppHeader</FileType>
     </None>
@@ -168,13 +168,12 @@
     <None Include="stl\include\cstdio" />
     <None Include="stl\include\memory" />
     <None Include="stl\include\string" />
+    <None Include="stl\include\type_traits" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\kernel.cpp" />
+    <ClCompile Include="kernel\src\kernel.cpp" />
     <ClCompile Include="stl\src\char_traits.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\kernel\display.hpp" />
+    <ClCompile Include="stl\src\type_traits.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>

@@ -85,32 +85,8 @@ namespace std
 	}
 
 	template <typename char_type>
-	constexpr char_type char_traits<char_type>::to_char_type(int_type int_value) noexcept
-	{
-		return (char_type)int_value;
-	}
-
-	template <typename char_type>
-	constexpr char_traits<char_type>::int_type char_traits<char_type>::to_int_type(char_type char_value) noexcept
-	{
-		return (int_type)char_value;
-	}
-
-	template <typename char_type>
 	constexpr bool char_traits<char_type>::eq_int_type(int_type character1, int_type character2) noexcept
 	{
 		return character1 == character2;
-	}
-
-	template <typename char_type>
-	constexpr char_traits<char_type>::int_type char_traits<char_type>::eof() noexcept
-	{
-		return (int_type)(EOF);
-	}
-
-	template <typename char_type>
-	constexpr char_traits<char_type>::int_type char_traits<char_type>::not_eof(int_type int_value) noexcept
-	{
-		return (int_value != EOF) ? e : e + 1;
 	}
 }

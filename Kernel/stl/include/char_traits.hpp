@@ -1,11 +1,12 @@
 #include <cstdint>
+#include <cstdio>
 
 namespace std
 {
 	template <typename char_type>
 	struct char_traits
 	{
-		typedef unsigned long				int_type;
+		using int_type						= unsigned long;
 		// TODO :
 		// typedef std::streampos			pos_type;
 		// typedef std::streamoff			off_type;
@@ -26,12 +27,12 @@ namespace std
 
 		static constexpr const char_type*	find(char_type const* string, size_t count, char_type const& character);
 
-		static constexpr char_type			to_char_type(int_type int_value) noexcept;
-		static constexpr int_type			to_int_type(char_type char_value) noexcept;
+		static constexpr char_type			to_char_type(int_type int_value) noexcept { return (char_type)int_value; }
+		static constexpr int_type			to_int_type(char_type char_value) noexcept { return (int_type)char_value; }
 
 		static constexpr bool				eq_int_type(int_type character1, int_type character2) noexcept;
 
-		static constexpr int_type			eof() noexcept;
-		static constexpr int_type			not_eof(int_type int_value) noexcept;
+		static constexpr int_type			eof() noexcept { return (int_type)(EOF); }
+		static constexpr int_type			not_eof(int_type int_value) noexcept { return (int_value != EOF) ? int_value : int_value + 1; }
 	};
 }
