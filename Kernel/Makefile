@@ -1,25 +1,47 @@
 i686-elf		= /usr/local/cross/bin/i686-elf
 i686-elf-g++	= $(i686-elf)-g++
 i686-elf-as		= $(i686-elf)-as
-prefix = /home/saucisse/projects/Kernel
-cpp_flags = -Iinclude -Istl/include -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c
-ld_flags = -ffreestanding -O2 -nostdlib -lgcc
+
+prefix			= /home/saucisse/projects/Kernel
+
+cpp_flags		= -Iinclude -Istl/include -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c
+ld_flags		= -ffreestanding -O2 -nostdlib -lgcc
+
+stl_sources		= $(wildcard stl/src/*.cpp)
+stl_objects		= $(patsubst stl/src/%.cpp, build/stl/%.o, $(stl_sources))
+
+kernel_sources	= $(wildcard kernel/src/*.cpp)
+kernel_objects	= $(patsubst kernel/src/%.cpp, build/kernel/%.o, $(kernel_sources))
+
 
 setup:
 	cd $(prefix)
-	mkdir -p build
+	mkdir -p build/kernel
+	mkdir -p build/stl
+
+
 
 boot: setup
-	$(i686-elf-as) src/boot.asm -o build/boot.o
+	$(i686-elf-as) kernel/src/boot.asm -o build/kernel/boot.o
 
-stl: setup
-	$(i686-elf-g++) stl/src/char_traits.cpp -o build/stl.o $(cpp_flags)
 
-kernel: setup stl
-	$(i686-elf-g++) src/kernel.cpp -o build/kernel.o $(cpp_flags)
 
-link: boot kernel
-	$(i686-elf-g++) -T linker.ld -o build/os.bin  build/boot.o build/kernel.o $(ld_flags)
+build/stl/%.o: stl/src/%.cpp
+	$(i686-elf-g++) -c $< -o $@ $(cpp_flags)
+
+stl: $(stl_objects)
+
+
+
+build/kernel/%.o: kernel/src/%.cpp
+	$(i686-elf-g++) -c $< -o $@ $(cpp_flags)
+
+kernel: $(kernel_objects)
+
+	
+
+link: boot stl kernel
+	$(i686-elf-g++) -T linker.ld -o build/os.bin build/kernel/*.o build/stl/*.o $(ld_flags)
 
 build: link
 	mkdir -p build/isodir/boot/grub
