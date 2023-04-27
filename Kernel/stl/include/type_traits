@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 namespace std
 {
 	template <typename T, T v>
@@ -14,9 +16,154 @@ namespace std
 		constexpr value_type operator()() const noexcept { return value; }
 	};
 
-	template <bool B>
+
+
+	template <bool B> 
 	using bool_constant = integral_constant<bool, B>;
 
 	typedef integral_constant<bool, true> true_type;
 	typedef integral_constant<bool, false> false_type;
+
+
+
+	template <typename T> struct remove_cv { typedef T type; };
+	template <typename T> struct remove_cv<T const> { typedef T type; };
+	template <typename T> struct remove_cv<T volatile> { typedef T type; };
+	template <typename T> struct remove_cv<T const volatile> { typedef T type; };
+	template <typename T> inline constexpr bool remove_cv_t = remove_cv<T>::type;
+
+	template <typename T> struct remove_const { typedef T type; };
+	template <typename T> struct remove_const<T const> { typedef T type; };
+	template <typename T> inline constexpr bool remove_const_t = remove_const<T>::type;
+
+	template <typename T> struct remove_volatile { typedef T type; };
+	template <typename T> struct remove_volatile<T volatile> { typedef T type; };
+	template <typename T> inline constexpr bool remove_volatile_t = remove_volatile<T>::type;
+
+
+
+	template <typename T, typename U> struct is_same : std::false_type {};
+	template <typename T>			  struct is_same<T, T> : std::true_type {};
+	template <typename T, typename U> inline constexpr bool is_same_v = is_same<T, U>::value;
+
+
+
+	template <typename T>
+	struct is_integral	: std::bool_constant<
+		is_same_v<typename remove_cv<T>::type, bool> ||
+		is_same_v<typename remove_cv<T>::type, char> ||
+		is_same_v<typename remove_cv<T>::type, signed char> ||
+		is_same_v<typename remove_cv<T>::type, unsigned char> ||
+		is_same_v<typename remove_cv<T>::type, wchar_t> ||
+		is_same_v<typename remove_cv<T>::type, char8_t> ||
+		is_same_v<typename remove_cv<T>::type, char16_t> ||
+		is_same_v<typename remove_cv<T>::type, char32_t> ||
+		is_same_v<typename remove_cv<T>::type, short> ||
+		is_same_v<typename remove_cv<T>::type, unsigned short> ||
+		is_same_v<typename remove_cv<T>::type, int> ||
+		is_same_v<typename remove_cv<T>::type, unsigned int> ||
+		is_same_v<typename remove_cv<T>::type, long> ||
+		is_same_v<typename remove_cv<T>::type, unsigned long> ||
+		is_same_v<typename remove_cv<T>::type, long long> ||
+		is_same_v<typename remove_cv<T>::type, unsigned long long>
+	> {};
+	template <typename T> inline constexpr bool is_integral_v = is_integral<T>::value;
+
+
+
+	template <typename T>
+	struct is_floating_point : bool_constant<
+		is_same_v<typename remove_cv<T>::type, float> ||
+		is_same_v<typename remove_cv<T>::type, double> ||
+		is_same_v<typename remove_cv<T>::type, long double>
+	> {};
+	template <typename T> inline constexpr bool is_floating_point_v = is_floating_point<T>::value;
+
+
+
+	/// <summary>
+	/// Arithmetic types are the built-in types for which the arithmetic operators (+, -, *, /) are defined (possibly in
+	/// combination with the usual arithmetic conversions)
+	/// </summary>
+	template <typename T>
+	struct is_arithmetic : bool_constant<
+		is_integral_v<T> ||
+		is_floating_point_v<T>
+	> {};
+	template <typename T> inline constexpr bool is_arithmetic_v = is_arithmetic<T>::value;
+
+
+
+	template <typename T>
+	struct is_enum : bool_constant<__is_enum(T)> {};
+	template <typename T> inline constexpr bool is_enum_v = is_enum<T>::value;
+
+
+
+	template <typename T> struct is_pointer : false_type {};
+	template <typename T> struct is_pointer<T*> : true_type {};
+	template <typename T> struct is_pointer<T* const> : true_type {};
+	template <typename T> struct is_pointer<T* volatile> : true_type {};
+	template <typename T> struct is_pointer<T* const volatile> : true_type {};
+	template <typename T> inline constexpr bool is_pointer_v = is_pointer<T>::value;
+
+
+
+	template <typename T>			  struct is_member_pointer_helper : false_type {};
+	template <typename T, typename U> struct is_member_pointer_helper<T U::*> : true_type {};
+	template <typename T>			  struct is_member_pointer : is_member_pointer_helper<typename remove_cv<T>::type> {};
+	template <typename T>			  inline constexpr bool is_member_pointer_v = is_member_pointer<T>::value;
+
+
+
+	template <typename T> struct is_null_pointer : bool_constant<is_same_v<remove_cv_t<T>, nullptr_t>> {};
+	template <typename T> inline constexpr bool is_null_pointer_v = is_null_pointer<T>::value;
+
+
+
+	/// <summary>
+	/// Each individual memory location in the C++ memory model, including the hidden memory locations used by language features
+	/// (e.g. virtual table pointer), has scalar type (or is a sequence of adjacent bit-fields of non-zero length). Sequencing
+	/// of side-effects in expression evaluation, inter-thread synchronization, and dependency ordering are all defined in terms
+	/// of individual scalar objects.
+	/// </summary>
+	template <typename T>
+	struct is_scalar : bool_constant<
+		is_arithmetic_v<T> ||
+		is_enum_v<T> ||
+		is_pointer_v<T> ||
+		is_member_pointer_v<T> ||
+		is_null_pointer_v<T>
+	> {};
+	template <typename T> inline constexpr bool is_scalar_v = is_scalar<T>::value;
+
+
+
+	template <typename T> struct is_array : false_type {};
+	template <typename T> struct is_array<T[]> : true_type {};
+	template <typename T, size_t N> struct is_array<T[N]> : true_type {};
+	template <typename T> inline constexpr bool is_array_v = is_array<T>::value;
+
+
+
+	template <typename T> struct is_union : bool_constant<__is_union(T)> {};
+	template <typename T> inline constexpr bool is_union_v = is_union<T>::value;
+
+
+
+	template <typename T> bool_constant<!is_union_v<T>> is_class_helper(int T::*);
+	template <typename>   false_type is_class_helper(...);
+	template <typename T> struct is_class : decltype(is_class_helper<T>(nullptr)) {};
+	template <typename T> inline constexpr bool is_class_v = is_class<T>::value;
+
+
+
+	template <typename T>
+	struct is_object : bool_constant<
+		is_array_v<T> ||
+		is_class_v<T> ||
+		is_scalar_v<T> ||
+		is_union_v<T>
+	> {};
+	template <typename T> inline constexpr bool is_object_v = is_object<T>::value;
 }
