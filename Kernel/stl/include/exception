@@ -1,0 +1,17 @@
+#pragma once
+
+namespace std
+{
+	class exception
+	{
+	public:
+		exception() noexcept = default;
+		exception(exception const& other) noexcept;
+
+		virtual ~exception() = default;
+
+		exception& operator=(exception const& other) noexcept;
+
+		virtual const char* what() const noexcept;
+	};
+}

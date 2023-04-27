@@ -1,0 +1,9 @@
+#pragma once 
+
+constexpr auto NULL = 0;
+
+namespace std {
+	typedef decltype(sizeof(NULL)) size_t;
+	typedef decltype(&NULL - &NULL) ptrdiff_t;
+	typedef decltype(nullptr) nullptr_t;
+}

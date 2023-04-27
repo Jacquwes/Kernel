@@ -1,0 +1,25 @@
+#pragma once
+
+#include <cstdint>
+
+namespace std
+{
+	double log(double n, uint64_t iterations = 1000);
+
+	template <typename Integer>
+	double log(Integer n, uint64_t iterations = 1000)
+	{
+		return log((double)n, iterations);
+	}
+
+	double log10(double n, uint64_t iterations = 1000);
+
+	template<typename Integer>
+	double log10(Integer n, uint64_t iterations)
+	{
+		return log10((double)n, iterations);
+	}
+
+	uint64_t log2_binary(uint64_t n);
+	uint64_t log10_binary(uint64_t n);
+}

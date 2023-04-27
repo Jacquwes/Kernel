@@ -1,0 +1,6 @@
+#pragma once
+
+namespace std
+{
+	void itoa(char* string, size_t size, uint64_t n, int base = 10);
+}

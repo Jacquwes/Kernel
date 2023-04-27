@@ -1,0 +1,45 @@
+#pragma once
+
+#include <cstddef>
+#include <exception>
+
+namespace std
+{
+	/*class bad_alloc : public exception
+	{
+	public:
+		bad_alloc() noexcept = default;
+		bad_alloc(const char* what) noexcept;
+		bad_alloc(bad_alloc const& other) noexcept = default;
+
+		bad_alloc& operator=(bad_alloc const& other) noexcept;
+
+		virtual const char* what() const noexcept;
+
+	private:
+		const char* m_what;
+	};
+
+	class bad_array_new_length : public bad_alloc
+	{
+		bad_array_new_length() noexcept = default;
+		bad_array_new_length(const char* what) noexcept;
+		bad_array_new_length(bad_array_new_length const& other) noexcept = default;
+
+		bad_array_new_length& operator=(bad_array_new_length const& other) noexcept;
+
+		virtual const char* what() const noexcept;
+
+	private:
+		const char* m_what;
+	};*/
+}
+
+
+[[nodiscard]]
+void* operator new(std::size_t count);
+[[nodiscard]]
+void* operator new[](std::size_t count);
+
+void operator delete(void* ptr) noexcept;
+void operator delete[](void* ptr) noexcept;
