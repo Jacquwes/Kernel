@@ -61,7 +61,7 @@ namespace std
 				char string[size];
 				itoa(string, size, value, 16);
 
-				for (size_t i = 0; i < size; i++)
+				for (size_t i = 0; i < size - 1; i++)
 				{
 					printed++;
 					kernel::output::instance->putchar(string[i]);
