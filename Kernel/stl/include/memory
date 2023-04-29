@@ -1,10 +1,100 @@
 #pragma once
 
+#include <cstddef>
+#include <cstdio>
+#include <limits>
+#include <type_traits>
+
 namespace std
 {
 	template <typename T>
 	struct allocator
 	{
+		typedef T value_type;
+		typedef std::size_t size_type;
+		typedef ptrdiff_t difference_type;
+		typedef std::true_type propagate_on_container_move_assignment;
+		typedef std::true_type is_always_equal;
 
+		constexpr allocator() noexcept = default;
+		constexpr allocator(allocator const& other) noexcept = default;
+
+		constexpr ~allocator() = default;
+
+		[[nodiscard]]
+		constexpr value_type* allocate(std::size_t size) const
+		{
+			if (std::numeric_limits<std::size_t>::max() / sizeof(value_type) < size)
+			{
+				std::printf("std::allocate: Size %x too large. Maximum is %x.\n", size, std::numeric_limits<std::size_t>::max() / sizeof(value_type));
+				return nullptr;
+			}
+
+			return new value_type[size * sizeof(value_type)]();
+		}
+
+		constexpr void deallocate(T* ptr, size_t count)
+		{
+
+		}
+	};
+
+	template <typename T>
+	constexpr T* addressof(T& arg) noexcept
+	{
+		return &arg;
+	}
+
+	template <typename T>
+	const T* addressof(T const&&) = delete;
+
+	template <typename Ptr>
+	struct pointer_traits
+	{
+		typedef Ptr pointer;
+		typedef Ptr element_type; // ?
+		typedef Ptr::difference_type difference_type;
+
+		template <typename U> using rebind = U*;
+
+		static pointer pointer_to(element_type& r)
+		{
+			return Ptr::pointer_to(r);
+		}
+	};
+
+	template <typename T>
+	struct pointer_traits<T*>
+	{
+		typedef T* pointer;
+		typedef T element_type;
+		typedef ptrdiff_t difference_type;
+
+		template <typename U> using rebind = U*;
+
+		static pointer pointer_to(element_type& r) noexcept
+		{
+			return std::addressof(r);
+		}
+	};
+
+	template <typename Allocator>
+	struct allocator_traits
+	{
+		typedef Allocator allocator_type;
+		typedef Allocator::value_type value_type;
+		typedef value_type* pointer;
+		typedef typename pointer_traits<pointer>::rebind<const value_type> const_pointer;
+		typedef typename pointer_traits<pointer>::rebind<void> void_pointer;
+		typedef typename pointer_traits<pointer>::rebind<const void> const_void_pointer;
+		typedef Allocator::difference_type difference_type;
+		typedef Allocator::size_type size_type;
+		typedef std::false_type propagate_on_container_copy_assignment;
+		typedef Allocator::propagate_on_container_move_assignment propagate_on_container_move_assignment;
+		typedef std::false_type propagate_on_container_swap;
+		typedef Allocator::is_always_equal is_always_equal;
+
+		template <typename T> using rebind_alloc = allocator<T>;
+		template <typename T> using rebind_traits = allocator_traits<rebind_alloc<T>>;
 	};
 }
