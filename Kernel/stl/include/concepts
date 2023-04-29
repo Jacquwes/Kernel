@@ -1,0 +1,16 @@
+#pragma once
+
+#include <type_traits>
+#include <utility>
+
+namespace std
+{
+	template <typename T>
+	concept CopyConstructible = requires (T u, T v)
+	{
+		u = v;
+		T(v);
+		u.~T();
+		is_same_v<decltype(&declval<T&>(u)), T*>;
+	};
+}
