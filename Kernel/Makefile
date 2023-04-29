@@ -4,14 +4,21 @@ i686-elf-as		= $(i686-elf)-as
 
 prefix			= /home/saucisse/projects/Kernel
 
-cpp_flags		= -Iinclude -Istl/include -ffreestanding -O2 -Wall -Wextra -fno-exceptions -fno-rtti -c
-ld_flags		= -ffreestanding -O2 -nostdlib -lgcc
+cpp_flags		= -Iinclude -Istl/include -Ikernel/include -g -ffreestanding -Wall -Wextra -fno-exceptions -fno-rtti -c -std=c++20
+ld_flags		= -ffreestanding -nostdlib -lgcc -g
 
 stl_sources		= $(wildcard stl/src/*.cpp)
 stl_objects		= $(patsubst stl/src/%.cpp, build/stl/%.o, $(stl_sources))
 
 kernel_sources	= $(wildcard kernel/src/*.cpp)
 kernel_objects	= $(patsubst kernel/src/%.cpp, build/kernel/%.o, $(kernel_sources))
+
+boot_sources	= $(wildcard kernel/src/*.s)
+boot_objects	= $(patsubst kernel/src/%.s, build/kernel/%.o, $(boot_sources))
+
+crtbegin_object = $(shell $(i686-elf-g++) $(cpp_flags) -print-file-name=crtbegin.o)
+crtend_object = $(shell $(i686-elf-g++) $(cpp_flags) -print-file-name=crtend.o)
+
 
 
 setup:
@@ -21,8 +28,10 @@ setup:
 
 
 
-boot: setup
-	$(i686-elf-as) kernel/src/boot.asm -o build/kernel/boot.o
+build/kernel/%.o: kernel/src/%.asm
+	$(i686-elf-as) $< -o $@
+
+boot: $(boot_objects)
 
 
 
@@ -41,9 +50,9 @@ kernel: $(kernel_objects)
 	
 
 link: boot stl kernel
-	$(i686-elf-g++) -T linker.ld -o build/os.bin build/kernel/*.o build/stl/*.o $(ld_flags)
+	$(i686-elf-g++) -T linker.ld -o build/os.bin $(kernel_objects) $(stl_objects) $(boot_objects) $(crtbegin_object) $(crtend_object) $(ld_flags)
 
-build: link
+build: setup link
 	mkdir -p build/isodir/boot/grub
 	cp build/os.bin build/isodir/boot/os.bin
 	cp grub.cfg build/isodir/boot/grub/grub.cfg
@@ -51,7 +60,7 @@ build: link
 	rm -rf bin obj
 
 start: build
-	qemu-system-i386 -cdrom build/os.iso
+	qemu-system-i386 -cdrom build/os.iso -s
 
 clean:
 	rm -rf build
