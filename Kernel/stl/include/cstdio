@@ -1,3 +1,9 @@
 #pragma once
 
 constexpr int EOF = -1;
+
+namespace std
+{
+	int printf(const char* format, ...);
+	int vprintf(const char* format, __builtin_va_list list);
+}
