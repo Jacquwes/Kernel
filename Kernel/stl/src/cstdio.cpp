@@ -31,6 +31,18 @@ namespace std
 
 			switch (*(++c))
 			{
+			case 's':
+			{
+				char* string = (char*)__builtin_va_arg(list, int);
+
+				for (size_t i = 0; string[i]; i++)
+				{
+					kernel::output::instance->putchar(string[i]);
+					printed++;
+				}
+
+				break;
+			}
 			case 'c':
 			{
 				uint8_t value = __builtin_va_arg(list, int);
