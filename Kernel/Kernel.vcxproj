@@ -85,134 +85,198 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
     <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
     <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
     <CleanCommandLine>make clean</CleanCommandLine>
+    <OutDir>$(ProjectDir)build</OutDir>
+    <IntDir>$(ProjectDir)build</IntDir>
+    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
     <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
     <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
     <CleanCommandLine>make clean</CleanCommandLine>
+    <OutDir>$(ProjectDir)build</OutDir>
+    <IntDir>$(ProjectDir)build</IntDir>
+    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
     <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
     <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
     <CleanCommandLine>make clean</CleanCommandLine>
+    <OutDir>$(ProjectDir)build</OutDir>
+    <IntDir>$(ProjectDir)build</IntDir>
+    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
     <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
     <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
     <CleanCommandLine>make clean</CleanCommandLine>
+    <OutDir>$(ProjectDir)build</OutDir>
+    <IntDir>$(ProjectDir)build</IntDir>
+    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
     <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
     <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
     <CleanCommandLine>make clean</CleanCommandLine>
+    <OutDir>$(ProjectDir)build</OutDir>
+    <IntDir>$(ProjectDir)build</IntDir>
+    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
     <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
     <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
     <CleanCommandLine>make clean</CleanCommandLine>
+    <OutDir>$(ProjectDir)build</OutDir>
+    <IntDir>$(ProjectDir)build</IntDir>
+    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
     <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
     <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
     <CleanCommandLine>make clean</CleanCommandLine>
+    <OutDir>$(ProjectDir)build</OutDir>
+    <IntDir>$(ProjectDir)build</IntDir>
+    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
     <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
     <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
     <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
     <CleanCommandLine>make clean</CleanCommandLine>
+    <OutDir>$(ProjectDir)build</OutDir>
+    <IntDir>$(ProjectDir)build</IntDir>
+    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
+    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
   </PropertyGroup>
   <ItemGroup>
     <None Include="grub.cfg" />
-    <None Include="kernel\src\boot.asm" />
+    <None Include="kernel\src\boot.s" />
+    <None Include="kernel\src\crti.s" />
+    <None Include="kernel\src\crtn.s" />
     <None Include="linker.ld" />
     <None Include="Makefile">
       <FileType>Document</FileType>
     </None>
-    <None Include="stl\include\char_traits.hpp">
+    <None Include="stl\include\char_traits.h">
       <FileType>CppHeader</FileType>
     </None>
+    <None Include="stl\include\cmath" />
+    <None Include="stl\include\concepts" />
+    <None Include="stl\include\cstddef" />
     <None Include="stl\include\cstdint" />
     <None Include="stl\include\cstdio" />
+    <None Include="stl\include\cstring" />
+    <None Include="stl\include\exception" />
+    <None Include="stl\include\iterator" />
+    <None Include="stl\include\limits" />
     <None Include="stl\include\memory" />
+    <None Include="stl\include\new" />
+    <None Include="stl\include\cstdlib" />
     <None Include="stl\include\string" />
     <None Include="stl\include\type_traits" />
+    <None Include="stl\include\utility" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="kernel\src\kernel.cpp" />
+    <ClCompile Include="kernel\src\memory_manager.cpp" />
+    <ClCompile Include="kernel\src\output.cpp" />
+    <ClCompile Include="stl\include\cstdarg" />
+    <ClCompile Include="stl\src\basic_string.cpp" />
     <ClCompile Include="stl\src\char_traits.cpp" />
+    <ClCompile Include="stl\src\cmath.cpp" />
+    <ClCompile Include="stl\src\concepts.cpp" />
+    <ClCompile Include="stl\src\cstdio.cpp" />
+    <ClCompile Include="stl\src\cstdlib.cpp" />
+    <ClCompile Include="stl\src\cstring.cpp" />
+    <ClCompile Include="stl\src\iterator.cpp" />
+    <ClCompile Include="stl\src\limits.cpp" />
+    <ClCompile Include="stl\src\memory.cpp" />
+    <ClCompile Include="stl\src\new.cpp" />
     <ClCompile Include="stl\src\type_traits.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="kernel\include\kernel.h" />
+    <ClInclude Include="kernel\include\memory_manager.h" />
+    <ClInclude Include="kernel\include\multiboot.h" />
+    <ClInclude Include="kernel\include\output.h" />
+    <ClInclude Include="stl\include\basic_string.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <CppLanguageStandard>c++2a</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <CppLanguageStandard>c++2a</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <CppLanguageStandard>c++2a</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <CppLanguageStandard>c++2a</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <CppLanguageStandard>c++2a</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <CppLanguageStandard>c++2a</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <CppLanguageStandard>c++2a</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
-      <CppLanguageStandard>c++20</CppLanguageStandard>
+      <CppLanguageStandard>c++2a</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

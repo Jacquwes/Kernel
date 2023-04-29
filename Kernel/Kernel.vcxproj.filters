@@ -19,6 +19,21 @@
     <Filter Include="kernel\src">
       <UniqueIdentifier>{da4b2368-4f2f-4bb6-80d1-e3337e2d1f53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="kernel\include">
+      <UniqueIdentifier>{4d1e57ab-928f-4e4c-9615-5d8c47e78c1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stl\include\string">
+      <UniqueIdentifier>{71ba27de-4f0c-40db-8995-a7ef5af32d15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stl\include\c">
+      <UniqueIdentifier>{3bdc77cc-ea49-4780-b626-077e714bff5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stl\src\string">
+      <UniqueIdentifier>{d723b6d0-b8b0-45c2-81bf-376c56a1b347}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stl\src\c">
+      <UniqueIdentifier>{d3cac738-b9dc-46df-9020-d68a6b5a5b32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="linker.ld">
@@ -30,37 +45,129 @@
     <None Include="Makefile">
       <Filter>config</Filter>
     </None>
-    <None Include="stl\include\cstdint">
-      <Filter>stl\include</Filter>
-    </None>
-    <None Include="stl\include\string">
-      <Filter>stl\include</Filter>
-    </None>
-    <None Include="stl\include\char_traits.hpp">
-      <Filter>stl\include</Filter>
-    </None>
-    <None Include="stl\include\cstdio">
-      <Filter>stl\include</Filter>
-    </None>
     <None Include="stl\include\memory">
       <Filter>stl\include</Filter>
     </None>
     <None Include="stl\include\type_traits">
       <Filter>stl\include</Filter>
     </None>
-    <None Include="kernel\src\boot.asm">
+    <None Include="kernel\src\boot.s">
       <Filter>kernel\src</Filter>
+    </None>
+    <None Include="stl\include\new">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="kernel\src\crti.s">
+      <Filter>kernel\src</Filter>
+    </None>
+    <None Include="kernel\src\crtn.s">
+      <Filter>kernel\src</Filter>
+    </None>
+    <None Include="stl\include\exception">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\limits">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\cmath">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\iterator">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\concepts">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\utility">
+      <Filter>stl\include</Filter>
+    </None>
+    <None Include="stl\include\char_traits.h">
+      <Filter>stl\include\string</Filter>
+    </None>
+    <None Include="stl\include\string">
+      <Filter>stl\include\string</Filter>
+    </None>
+    <None Include="stl\include\cstddef">
+      <Filter>stl\include\c</Filter>
+    </None>
+    <None Include="stl\include\cstdint">
+      <Filter>stl\include\c</Filter>
+    </None>
+    <None Include="stl\include\cstdio">
+      <Filter>stl\include\c</Filter>
+    </None>
+    <None Include="stl\include\cstdlib">
+      <Filter>stl\include\c</Filter>
+    </None>
+    <None Include="stl\include\cstring">
+      <Filter>stl\include\c</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stl\src\char_traits.cpp">
-      <Filter>stl\src</Filter>
-    </ClCompile>
     <ClCompile Include="stl\src\type_traits.cpp">
       <Filter>stl\src</Filter>
     </ClCompile>
     <ClCompile Include="kernel\src\kernel.cpp">
       <Filter>kernel\src</Filter>
     </ClCompile>
+    <ClCompile Include="kernel\src\memory_manager.cpp">
+      <Filter>kernel\src</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\new.cpp">
+      <Filter>stl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\limits.cpp">
+      <Filter>stl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\memory.cpp">
+      <Filter>stl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\output.cpp">
+      <Filter>kernel\src</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\cmath.cpp">
+      <Filter>stl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\iterator.cpp">
+      <Filter>stl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\concepts.cpp">
+      <Filter>stl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\include\cstdarg">
+      <Filter>stl\include\c</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\basic_string.cpp">
+      <Filter>stl\src\string</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\char_traits.cpp">
+      <Filter>stl\src\string</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\cstdio.cpp">
+      <Filter>stl\src\c</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\cstdlib.cpp">
+      <Filter>stl\src\c</Filter>
+    </ClCompile>
+    <ClCompile Include="stl\src\cstring.cpp">
+      <Filter>stl\src\c</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="kernel\include\multiboot.h">
+      <Filter>kernel\include</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\memory_manager.h">
+      <Filter>kernel\include</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\kernel.h">
+      <Filter>kernel\include</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\output.h">
+      <Filter>kernel\include</Filter>
+    </ClInclude>
+    <ClInclude Include="stl\include\basic_string.h">
+      <Filter>stl\include\string</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
