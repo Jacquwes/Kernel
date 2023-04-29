@@ -102,6 +102,7 @@
     <None Include="stl\include\cstring">
       <Filter>stl\include\c</Filter>
     </None>
+    <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stl\src\type_traits.cpp">
