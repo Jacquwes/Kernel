@@ -62,5 +62,7 @@ void operator delete(void* ptr) noexcept
 
 void operator delete[](void* ptr) noexcept
 {
+	kernel::memory_manager::instance->deallocate(ptr);
+	std::printf("operator delete[](): Deallocated %x.\n", ptr);
 }
 
