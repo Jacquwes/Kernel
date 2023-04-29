@@ -27,6 +27,7 @@ namespace kernel
 		static memory_manager* instance;
 
 		inline constexpr error_code const& get_error_code() const { return ec; }
+		void display_pages();
 
 		uintptr_t allocate(std::size_t size);
 		constexpr void deallocate(uintptr_t ptr, std::size_t size);

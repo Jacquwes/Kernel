@@ -81,8 +81,15 @@ namespace kernel
 		instance = nullptr;
 	}
 
-	uintptr_t memory_manager::allocate(std::size_t size)
+	void memory_manager::display_pages()
 	{
+		std::printf("kernel: Memory pages:\n");
+		for (memory_page* i = first_page; i; i = i->next)
+		{
+			std::printf("        %x : length: %x, next: %x, previous: %x\n", i, i->length, i->next, i->previous);
+	}
+	}
+
 		memory_page* result = nullptr;
 
 		std::printf("kernel: Allocate %x bytes.\n", size);
