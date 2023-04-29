@@ -3,7 +3,7 @@
 using int8_t = char;
 using int16_t = short;
 using int32_t = int;
-using uint64_t = long long;
+using int64_t = long long;
 
 using int_fast8_t = char;
 using int_fast16_t = short;
@@ -16,12 +16,12 @@ using int_least32_t = int;
 using int_least64_t = long long;
 
 using intmax_t = long long;
-using intptr_t = long long;
+using intptr_t = void*;
 
 using uint8_t = unsigned char;
 using uint16_t = unsigned short;
 using uint32_t = unsigned int;
-using uuint64_t = unsigned long long;
+using uint64_t = unsigned long long;
 
 using uint_fast8_t = unsigned char;
 using uint_fast16_t = unsigned short;
@@ -34,80 +34,78 @@ using uint_least32_t = unsigned int;
 using uint_least64_t = unsigned long long;
 
 using uintmax_t = unsigned long long;
-using uintptr_t = unsigned long long;
-
-using size_t = unsigned long long;
+using uintptr_t = void*;
 
 namespace std {
-	using ::size_t;
+	typedef decltype(sizeof(0)) size_t;
 }
 
-#define INT8_MIN -0x80
-#define INT16_MIN -0x8000
-#define INT32_MIN -0x80000000
-#define uint64_t_MIN -0x8000000000000000
+constexpr auto INT8_MIN = -0x80;
+constexpr auto INT16_MIN = -0x8000;
+constexpr auto INT32_MIN = -0x80000000;
+constexpr auto INT64_MIN = -0x8000000000000000;
 
-#define INT8_MAX 0x7f
-#define INT16_MAX 0x7fff
-#define INT32_MAX 0x7fffffff
-#define uint64_t_MAX 0x7fffffffffffffff
+constexpr auto INT8_MAX = 0x7f;
+constexpr auto INT16_MAX = 0x7fff;
+constexpr auto INT32_MAX = 0x7fffffff;
+constexpr auto INT64_MAX = 0x7fffffffffffffff;
 
-#define uint8_t_MAX 0xff
-#define UINT16_MAX 0xffff
-#define uint32_t_MAX 0xffffffff
-#define Uuint64_t_MAX 0xffffffffffffffff
+constexpr auto UINT8_MAX = 0xff;
+constexpr auto UINT16_MAX = 0xffff;
+constexpr auto UINT32_MAX = 0xffffffff;
+constexpr auto UINT64_MAX = 0xffffffffffffffff;
 
-#define INT_FAST8_MIN -0x80
-#define INT_FAST16_MIN -0x8000
-#define INT_FAST32_MIN -0x80000000
-#define INT_FAST64_MIN -0x8000000000000000
+constexpr auto INT_FAST8_MIN = -0x80;
+constexpr auto INT_FAST16_MIN = -0x8000;
+constexpr auto INT_FAST32_MIN = -0x80000000;
+constexpr auto INT_FAST64_MIN = -0x8000000000000000;
 
-#define INT_FAST8_MAX 0x7f
-#define INT_FAST16_MAX 0x7fff
-#define INT_FAST32_MAX 0x7fffffff
-#define INT_FAST64_MAX 0x7fffffffffffffff
+constexpr auto INT_FAST8_MAX = 0x7f;
+constexpr auto INT_FAST16_MAX = 0x7fff;
+constexpr auto INT_FAST32_MAX = 0x7fffffff;
+constexpr auto INT_FAST64_MAX = 0x7fffffffffffffff;
 
-#define UINT_FAST8_MAX 0xff
-#define UINT_FAST16_MAX 0xffff
-#define UINT_FAST32_MAX 0xffffffff
-#define UINT_FAST64_MAX 0xffffffffffffffff
+constexpr auto UINT_FAST8_MAX = 0xff;
+constexpr auto UINT_FAST16_MAX = 0xffff;
+constexpr auto UINT_FAST32_MAX = 0xffffffff;
+constexpr auto UINT_FAST64_MAX = 0xffffffffffffffff;
 
-#define INT_LEAST8_MIN -0x80
-#define INT_LEAST16_MIN -0x8000
-#define INT_LEAST32_MIN -0x80000000
-#define INT_LEAST64_MIN -0x8000000000000000
+constexpr auto INT_LEAST8_MIN = -0x80;
+constexpr auto INT_LEAST16_MIN = -0x8000;
+constexpr auto INT_LEAST32_MIN = -0x80000000;
+constexpr auto INT_LEAST64_MIN = -0x8000000000000000;
 
-#define INT_LEAST8_MAX 0x7f
-#define INT_LEAST16_MAX 0x7fff
-#define INT_LEAST32_MAX 0x7fffffff
-#define INT_LEAST64_MAX 0x7fffffffffffffff
+constexpr auto INT_LEAST8_MAX = 0x7f;
+constexpr auto INT_LEAST16_MAX = 0x7fff;
+constexpr auto INT_LEAST32_MAX = 0x7fffffff;
+constexpr auto INT_LEAST64_MAX = 0x7fffffffffffffff;
 
-#define UINT_LEAST8_MAX 0xff
-#define UINT_LEAST16_MAX 0xffff
-#define UINT_LEAST32_MAX 0xffffffff
-#define UINT_LEAST64_MAX 0xffffffffffffffff
+constexpr auto UINT_LEAST8_MAX = 0xff;
+constexpr auto UINT_LEAST16_MAX = 0xffff;
+constexpr auto UINT_LEAST32_MAX = 0xffffffff;
+constexpr auto UINT_LEAST64_MAX = 0xffffffffffffffff;
 
-#define INTMAX_MIN -0x8000000000000000
-#define INTMAX_MAX 0x7fffffffffffffff
-#define UINTMAX_MAX 0xffffffffffffffff
+constexpr auto INTMAX_MIN = -0x8000000000000000;
+constexpr auto INTMAX_MAX = 0x7fffffffffffffff;
+constexpr auto UINTMAX_MAX = 0xffffffffffffffff;
 
-#define INTPTR_MIN -0x8000000000000000
-#define INTPTR_MAX 0x7fffffffffffffff
-#define UINTPTR_MAX 0xffffffffffffffff
+constexpr auto INTPTR_MIN = -0x8000000000000000;
+constexpr auto INTPTR_MAX = 0x7fffffffffffffff;
+constexpr auto UINTPTR_MAX = 0xffffffffffffffff;
 
-#define PTRDIFF_MIN -0x8000000000000000
-#define PTRDIFF_MAX 0x7fffffffffffffff
+constexpr auto PTRDIFF_MIN = -0x80000000;
+constexpr auto PTRDIFF_MAX = 0x7fffffff;
 
-#define SIZE_MAX 0xffffffffffffffff
+constexpr auto SIZE_MAX = 0xffffffff;
 
-#define WCHAR_MIN 0
-#define WCHAR_MAX 0xffffffff
+constexpr auto WCHAR_MIN = 0;
+constexpr auto WCHAR_MAX = 0xffffffff;
 
-#define WINT_MIN 0
-#define WINT_MAX 0xffffffff
+constexpr auto WINT_MIN = 0;
+constexpr auto WINT_MAX = 0xffffffff;
 
-#define SIG_ATOMIC_MIN -0x80000000
-#define SIG_ATOMIC_MAX 0x7fffffff
+constexpr auto SIG_ATOMIC_MIN = -0x80000000;
+constexpr auto SIG_ATOMIC_MAX = 0x7fffffff;
 
 #define INT8_C(value) value
 #define INT16_C(value) value
