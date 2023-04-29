@@ -90,6 +90,8 @@ namespace kernel
 	}
 	}
 
+	void* memory_manager::allocate(std::size_t size)
+	{
 		memory_page* result = nullptr;
 
 		std::printf("kernel: Allocate %x bytes.\n", size);
@@ -107,10 +109,17 @@ namespace kernel
 				i = i->next;
 		} while (i->next && !result);
 
+		memory_page* temp_next = result->next;
+		std::size_t temp_length = result->length;
+
+		result->length = size + sizeof(memory_page);
+		result->allocated = true;
+		result->next = (memory_page*)((char*)result + sizeof(memory_page) + size);
+
 		result->next->allocated = false;
-		result->next->length = result->length - size - sizeof(memory_page);
+		result->next->length = temp_length - size - sizeof(memory_page);
 		result->next->previous = result;
-		result->next->next = result->next;
+		result->next->next = temp_next;
 		if (result->next->next)
 			result->next->next->previous = result->next;
 
@@ -121,7 +130,7 @@ namespace kernel
 		std::printf("kernel: Allocated page:\n");
 		std::printf("        address: %x, length: %x, next: %x, previous: %x\n", result, result->length, result->next, result->previous);
 
-		return reinterpret_cast<uintptr_t>(result + sizeof(memory_page));
+		return (char*)result + sizeof(memory_page);
 	}
 
 	constexpr void memory_manager::deallocate(uintptr_t ptr, std::size_t size)
