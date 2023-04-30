@@ -9,7 +9,7 @@ namespace kernel
 	memory_manager::memory_manager(multiboot_info_t* info, uint32_t const& magic)
 	{
 		std::printf("kernel: Initializing memory manager.\n");
-			
+
 		instance = this;
 
 		if (magic != MULTIBOOT_BOOTLOADER_MAGIC)
@@ -71,7 +71,7 @@ namespace kernel
 			last_page->length = map_entry->len;
 			last_page->previous = previous_page;
 			last_page->next = nullptr;
-			
+
 			std::printf("        next page: address: %x, length: %x\n", last_page, last_page->length);
 		}
 	}
@@ -87,21 +87,18 @@ namespace kernel
 		for (memory_page* i = first_page; i; i = i->next)
 		{
 			std::printf("        %x : length: %x, next: %x, previous: %x, %s\n", i, i->length, i->next, i->previous, i->allocated ? "allocated" : "");
-	}
+		}
 	}
 
 	void* memory_manager::allocate(std::size_t size)
 	{
 		memory_page* result = nullptr;
 
-		std::printf("kernel: Allocate %x bytes.\n", size);
-
 		memory_page* i = first_page;
 		do
-		{			
+		{
 			if (i->allocatable() >= size && !i->allocated)
 			{
-				std::printf("kernel: Found allocatable page at %x.\n", i);
 				result = i;
 			}
 
@@ -123,18 +120,44 @@ namespace kernel
 		if (result->next->next)
 			result->next->next->previous = result->next;
 
-		result->length = size + sizeof(memory_page);
-		result->allocated = true;
-		result->next = result + result->length;
-
-		std::printf("kernel: Allocated page:\n");
-		std::printf("        address: %x, length: %x, next: %x, previous: %x\n", result, result->length, result->next, result->previous);
-
 		return (char*)result + sizeof(memory_page);
 	}
 
-	constexpr void memory_manager::deallocate(uintptr_t ptr, std::size_t size)
+	void memory_manager::deallocate(void* ptr)
 	{
+		memory_page* i = first_page;
 
+		while (i && ptr - sizeof(memory_page) != i)
+			i = i->next;
+
+		if (!i)
+		{
+			std::printf("kernel: Trying to deallocate unallocated memory at %x.\n", ptr);
+			return;
+		}
+
+		if (i->next && !i->next->allocated)
+		{
+			i->length += i->next->length;
+			i->next = i->next->next;
+			if (i->next->next)
+				i->next->next->previous = i;
+
+			std::printf("kernel: Merged next page with current page.\n");
+		}
+
+		if (i->previous && !i->previous->allocated)
+		{
+			i->previous->length += i->length;
+			i->previous->next = i->next;
+			if (i->next)
+				i->next->previous = i->previous;
+
+			std::printf("kernel: Merged previous page with current page.\n");
+
+			i = i->previous;
+		}
+
+		i->allocated = false;
 	}
 }
