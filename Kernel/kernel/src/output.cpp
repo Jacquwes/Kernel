@@ -32,7 +32,7 @@ namespace kernel
 		}
 
 		if (cursorY >= VGA_HEIGHT)
-			;//scroll();
+			scroll();
 	}
 
 	void output::scroll(uint8_t const& lines)
