@@ -142,8 +142,6 @@ namespace kernel
 			i->next = i->next->next;
 			if (i->next->next)
 				i->next->next->previous = i;
-
-			std::printf("kernel: Merged next page with current page.\n");
 		}
 
 		if (i->previous && !i->previous->allocated)
@@ -152,8 +150,6 @@ namespace kernel
 			i->previous->next = i->next;
 			if (i->next)
 				i->next->previous = i->previous;
-
-			std::printf("kernel: Merged previous page with current page.\n");
 
 			i = i->previous;
 		}
