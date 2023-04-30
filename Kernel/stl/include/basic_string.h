@@ -41,7 +41,8 @@ namespace std
 
 		inline constexpr basic_string(size_type count, value_type ch, allocator_type const& alloc = allocator_type())
 		{
-			_data = alloc.allocate(count + 1);
+			_alloc = alloc;
+			_data = _alloc.allocate(count + 1);
 			_size = count;
 			_capacity = count;
 
@@ -55,6 +56,7 @@ namespace std
 
 		inline constexpr basic_string(basic_string const& other)
 		{
+			_alloc = other._alloc;
 			_data = other._data;
 			_size = other._size;
 			_capacity = other._capacity;
@@ -62,6 +64,8 @@ namespace std
 
 		inline constexpr basic_string(const value_type* string, allocator_type const& alloc = allocator_type())
 		{
+			_alloc = alloc;
+
 			for (_size = _capacity = 0; string[_size]; _size++, _capacity++);
 
 			_data = alloc.allocate(_size + 1);
@@ -72,6 +76,7 @@ namespace std
 		inline constexpr value_type* c_str() const noexcept { return _data; }
 
 	private:
+		Allocator _alloc;
 		size_type _size;
 		size_type _capacity;
 		pointer _data;
