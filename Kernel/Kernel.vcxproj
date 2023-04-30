@@ -195,7 +195,6 @@
     <None Include="Makefile">
       <FileType>Document</FileType>
     </None>
-    <None Include="readme.md" />
     <None Include="stl\include\char_traits.h">
       <FileType>CppHeader</FileType>
     </None>
