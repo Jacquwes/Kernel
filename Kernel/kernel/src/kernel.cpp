@@ -21,19 +21,5 @@ void main(multiboot_info_t* info, uint32_t magic)
 		return;
 	}
 
-
-	char* arr1 = new char[64];
-	char* arr2 = new char[64];
-	char* arr3 = new char[64];
-	char* arr4 = new char[64];
-	char* arr5 = new char[64];
-
-	delete[] arr1;
-	delete[] arr5;
-	delete[] arr3;
-	delete[] arr2;
-	delete[] arr4;
-
-	// should display the same pages as before the allocations and deallocations
-	memory.display_pages();
+	std::printf("kernel: Memory manager initialized.\n");
 }

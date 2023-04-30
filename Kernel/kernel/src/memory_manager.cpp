@@ -26,18 +26,6 @@ namespace kernel
 			return;
 		}
 
-		std::printf("kernel: Multiboot info is OK.\n", info->mmap_length / sizeof(multiboot_memory_map_t));
-		//std::printf("kernel: Allocatable memory: lower: %x, upper: %x\n", info->mem_lower, info->mem_upper);
-		//
-		//uint32_t heap_size = 0x00a0'0000;
-		//first_page = reinterpret_cast<memory_page*>(heap_size);
-		//first_page->allocated = false;
-		//first_page->length = info->mem_upper - heap_size - 0x2800;
-		//first_page->next = nullptr;
-		//first_page->previous = nullptr;
-
-		//std::printf("kernel: Will use %x to %x, size of %x\n", first_page, first_page + first_page->length, first_page->length);
-
 		memory_page* last_page = nullptr;
 
 		for (std::size_t i = 0; i < info->mmap_length; i += sizeof(multiboot_memory_map_t))
@@ -59,7 +47,6 @@ namespace kernel
 				first_page->next = nullptr;
 				last_page = first_page;
 
-				std::printf("        first page: address: %x, length: %x\n", first_page, first_page->length);
 				continue;
 			}
 
@@ -71,8 +58,6 @@ namespace kernel
 			last_page->length = map_entry->len;
 			last_page->previous = previous_page;
 			last_page->next = nullptr;
-
-			std::printf("        next page: address: %x, length: %x\n", last_page, last_page->length);
 		}
 	}
 
