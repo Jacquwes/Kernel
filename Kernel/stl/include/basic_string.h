@@ -30,6 +30,15 @@ namespace std
 		constexpr basic_string() noexcept(noexcept(allocator_type()))
 			: basic_string(allocator_type()) {}
 
+		inline constexpr basic_string(allocator_type const& alloc) noexcept
+		{
+			_alloc = alloc;
+			_data = _alloc.allocate(1);
+			_data[0] = 0;
+			_size = 0;
+			_capacity = 0;
+		}
+
 		inline constexpr basic_string(size_type count, value_type ch, allocator_type const& alloc = allocator_type())
 		{
 			_data = alloc.allocate(count + 1);
