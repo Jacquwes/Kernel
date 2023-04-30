@@ -81,12 +81,12 @@ namespace kernel
 		instance = nullptr;
 	}
 
-	void memory_manager::display_pages()
+	void memory_manager::display_pages() const
 	{
 		std::printf("kernel: Memory pages:\n");
 		for (memory_page* i = first_page; i; i = i->next)
 		{
-			std::printf("        %x : length: %x, next: %x, previous: %x\n", i, i->length, i->next, i->previous);
+			std::printf("        %x : length: %x, next: %x, previous: %x, %s\n", i, i->length, i->next, i->previous, i->allocated ? "allocated" : "");
 	}
 	}
 
