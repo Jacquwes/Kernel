@@ -81,20 +81,25 @@ namespace std
 	template <typename Allocator>
 	struct allocator_traits
 	{
-		typedef Allocator allocator_type;
-		typedef Allocator::value_type value_type;
-		typedef value_type* pointer;
-		typedef typename pointer_traits<pointer>::rebind<const value_type> const_pointer;
-		typedef typename pointer_traits<pointer>::rebind<void> void_pointer;
-		typedef typename pointer_traits<pointer>::rebind<const void> const_void_pointer;
-		typedef Allocator::difference_type difference_type;
-		typedef Allocator::size_type size_type;
-		typedef std::false_type propagate_on_container_copy_assignment;
-		typedef Allocator::propagate_on_container_move_assignment propagate_on_container_move_assignment;
-		typedef std::false_type propagate_on_container_swap;
-		typedef Allocator::is_always_equal is_always_equal;
+		typedef Allocator													allocator_type;
+		typedef Allocator::value_type										value_type;
+		typedef value_type*													pointer;
+		typedef typename pointer_traits<pointer>::rebind<const value_type>	const_pointer;
+		typedef typename pointer_traits<pointer>::rebind<void>				void_pointer;
+		typedef typename pointer_traits<pointer>::rebind<const void>		const_void_pointer;
+		typedef Allocator::difference_type									difference_type;
+		typedef Allocator::size_type										size_type;
+		typedef std::false_type												propagate_on_container_copy_assignment;
+		typedef Allocator::propagate_on_container_move_assignment			propagate_on_container_move_assignment;
+		typedef std::false_type												propagate_on_container_swap;
+		typedef Allocator::is_always_equal									is_always_equal;
 
 		template <typename T> using rebind_alloc = allocator<T>;
 		template <typename T> using rebind_traits = allocator_traits<rebind_alloc<T>>;
+
+		static constexpr Allocator select_on_container_copy_construction(Allocator const& a)
+		{
+			return a;
+		}
 	};
 }
