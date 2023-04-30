@@ -41,24 +41,22 @@ namespace std
 void* operator new(std::size_t count)
 {
 	void* ptr = kernel::memory_manager::instance->allocate(count);
-	std::printf("operator new(): Allocated %x bytes at %x.\n", count, ptr);
 	return ptr;
 }
 
 void* operator new[](std::size_t count)
 {
 	void* ptr = kernel::memory_manager::instance->allocate(count);
-	std::printf("operator new[](): Allocated %x bytes at %x.\n", count, ptr);
 	return ptr;
 }
 
 void operator delete(void* ptr) noexcept
 {
+	kernel::memory_manager::instance->deallocate(ptr);
 }
 
 void operator delete[](void* ptr) noexcept
 {
 	kernel::memory_manager::instance->deallocate(ptr);
-	std::printf("operator delete[](): Deallocated %x.\n", ptr);
 }
 
