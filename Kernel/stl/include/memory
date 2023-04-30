@@ -35,7 +35,7 @@ namespace std
 
 		constexpr void deallocate(T* ptr, size_t count)
 		{
-
+			delete[] ptr;
 		}
 	};
 
