@@ -12,7 +12,10 @@ readable implementation of the C++ Standard Library.
 - `libmpc-dev`
 - `libmpfr-dev`
 - `texinfo`
-- qemu-i386
+- `qemu-system-x86`
+
+You can use the command `make` to install all the required dependencies
+on WSL and Debian/Ubuntu.
 
 ## Build
 

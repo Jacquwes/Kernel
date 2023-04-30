@@ -20,6 +20,9 @@ crtbegin_object = $(shell $(i686-elf-g++) $(cpp_flags) -print-file-name=crtbegin
 crtend_object = $(shell $(i686-elf-g++) $(cpp_flags) -print-file-name=crtend.o)
 
 
+deps:
+	sudo apt install build-essential bison flex libgmp3-dev libmpc-dev libmpfr-dev texinfo qemu-system-x86
+
 
 setup:
 	cd $(prefix)
