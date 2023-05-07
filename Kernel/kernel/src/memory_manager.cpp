@@ -1,5 +1,6 @@
 #include <cstdio>
 
+#include "kernel.h"
 #include "memory_manager.h"
 
 namespace kernel
@@ -59,6 +60,14 @@ namespace kernel
 			last_page->previous = previous_page;
 			last_page->next = nullptr;
 		}
+
+		if (ec != SUCCESS)
+		{
+			std::printf("kernel: Failed initializing memory manager. %x\n", ec);
+			return;
+		}
+
+		std::printf("kernel: Memory manager initialized.\n");
 	}
 
 	memory_manager::~memory_manager()

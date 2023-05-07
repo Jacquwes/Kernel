@@ -152,6 +152,12 @@
     <ClCompile Include="stl\src\cstring.cpp">
       <Filter>stl\src\c</Filter>
     </ClCompile>
+    <ClCompile Include="kernel\src\global_descriptor_table.cpp">
+      <Filter>kernel\src</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\interrupt_descriptor_table.cpp">
+      <Filter>kernel\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="kernel\include\multiboot.h">
@@ -168,6 +174,12 @@
     </ClInclude>
     <ClInclude Include="stl\include\basic_string.h">
       <Filter>stl\include\string</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\global_descriptor_table.h">
+      <Filter>kernel\include</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\interrupt_descriptor_table.h">
+      <Filter>kernel\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

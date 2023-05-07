@@ -89,6 +89,8 @@
     <None Include="stl\include\utility" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="kernel\src\global_descriptor_table.cpp" />
+    <ClCompile Include="kernel\src\interrupt_descriptor_table.cpp" />
     <ClCompile Include="kernel\src\kernel.cpp" />
     <ClCompile Include="kernel\src\memory_manager.cpp" />
     <ClCompile Include="kernel\src\output.cpp" />
@@ -107,6 +109,8 @@
     <ClCompile Include="stl\src\type_traits.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="kernel\include\global_descriptor_table.h" />
+    <ClInclude Include="kernel\include\interrupt_descriptor_table.h" />
     <ClInclude Include="kernel\include\kernel.h" />
     <ClInclude Include="kernel\include\memory_manager.h" />
     <ClInclude Include="kernel\include\multiboot.h" />
