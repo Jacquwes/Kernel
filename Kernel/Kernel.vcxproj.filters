@@ -102,6 +102,9 @@
     <None Include="stl\include\cstring">
       <Filter>stl\include\c</Filter>
     </None>
+    <None Include="kernel\src\interrupts.s">
+      <Filter>kernel\src</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stl\src\type_traits.cpp">

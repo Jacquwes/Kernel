@@ -65,6 +65,7 @@
     <None Include="kernel\src\boot.s" />
     <None Include="kernel\src\crti.s" />
     <None Include="kernel\src\crtn.s" />
+    <None Include="kernel\src\interrupts.s" />
     <None Include="linker.ld" />
     <None Include="Makefile">
       <FileType>Document</FileType>
