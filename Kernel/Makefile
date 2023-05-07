@@ -31,7 +31,7 @@ setup:
 
 
 
-build/kernel/%.o: kernel/src/%.asm
+build/kernel/%.o: kernel/src/%.s
 	$(i686-elf-as) $< -o $@
 
 boot: $(boot_objects)
