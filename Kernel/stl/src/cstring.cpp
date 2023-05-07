@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstring>
 
 namespace std
@@ -6,7 +7,15 @@ namespace std
 	{
 		for (size_t i = 0; i < count; i++)
 		{
-			*(unsigned char*)(destination + i) = *(unsigned char*)(source + i);
+			*(uint8_t*)(destination + i) = *(uint8_t*)(source + i);
+		}
+	}
+
+	void* memset(void* destination, int value, size_t count)
+	{
+		for (size_t i = 0; i < count; i++)
+		{
+			*(uint8_t*)(destination + i) = (uint8_t)value;
 		}
 	}
 }
