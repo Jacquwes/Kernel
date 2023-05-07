@@ -3,13 +3,15 @@
 
 namespace kernel
 {
+	global_descriptor_table* global_descriptor_table::instance = nullptr;
+
 	segment_descriptor::segment_descriptor(uint32_t base, uint32_t limit, uint16_t _flag)
 	{
 		uint64_t* descriptor = (uint64_t*)this;
 
 		// high 32 bit segment
 		*descriptor = limit & 0x000f'0000;
-		*descriptor |= (flag << 8) & 0x00f0'ff00;
+		*descriptor |= (_flag << 8) & 0x00f0'ff00;
 		*descriptor |= (base >> 16) & 0x0000'00ff;
 		*descriptor |= base & 0xff00'0000;
 
@@ -22,6 +24,8 @@ namespace kernel
 	global_descriptor_table::global_descriptor_table()
 	{
 		std::printf("kernel: Initializing global descriptor table.\n");
+
+		instance = this;
 
 		// null descriptor
 		descriptors[0] = segment_descriptor(0, 0, 0);

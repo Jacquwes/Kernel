@@ -19,6 +19,8 @@ namespace kernel {
 	struct global_descriptor_table
 	{
 		global_descriptor_table();
+
+		static global_descriptor_table* instance;
 		
 		segment_descriptor descriptors[4];
 	} __attribute__((packed));;

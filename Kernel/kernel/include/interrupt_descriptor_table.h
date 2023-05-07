@@ -13,14 +13,15 @@ namespace kernel
 
 		uint16_t base_low;
 		uint16_t selector;
-		uint8_t zero;
+		uint8_t reserved;
 		uint8_t flags;
 		uint16_t base_high;
 	} __attribute__((packed));
 
 	struct interrupt_descriptor_table
 	{
-		interrupt_descriptor_table(global_descriptor_table& gdt);
-		interrupt_descriptor descriptors[256];
+		interrupt_descriptor_table();
+
+		interrupt_descriptor descriptors[32];
 	} __attribute__((packed));
 }
