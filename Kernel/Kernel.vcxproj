@@ -1,22 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|ARM">
-      <Configuration>Debug</Configuration>
-      <Platform>ARM</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM">
-      <Configuration>Release</Configuration>
-      <Platform>ARM</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|ARM64">
-      <Configuration>Debug</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM64">
-      <Configuration>Release</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x86">
       <Configuration>Debug</Configuration>
       <Platform>x86</Platform>
@@ -24,14 +8,6 @@
     <ProjectConfiguration Include="Release|x86">
       <Configuration>Release</Configuration>
       <Platform>x86</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -45,14 +21,6 @@
     <LinuxProjectType>{FC1A4D80-50E9-41DA-9192-61C0DBAA00D2}</LinuxProjectType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <ConfigurationType>Makefile</ConfigurationType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <ConfigurationType>Makefile</ConfigurationType>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
     <UseDebugLibraries>true</UseDebugLibraries>
     <ConfigurationType>Makefile</ConfigurationType>
@@ -61,105 +29,11 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <ConfigurationType>Makefile</ConfigurationType>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <ConfigurationType>Makefile</ConfigurationType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <ConfigurationType>Makefile</ConfigurationType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <ConfigurationType>Makefile</ConfigurationType>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <ConfigurationType>Makefile</ConfigurationType>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <BuildCommandLine>make build</BuildCommandLine>
-    <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
-    <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
-    <CleanCommandLine>make clean</CleanCommandLine>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)build</IntDir>
-    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
-    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <BuildCommandLine>make build</BuildCommandLine>
-    <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
-    <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
-    <CleanCommandLine>make clean</CleanCommandLine>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)build</IntDir>
-    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
-    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <BuildCommandLine>make build</BuildCommandLine>
-    <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
-    <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
-    <CleanCommandLine>make clean</CleanCommandLine>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)build</IntDir>
-    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
-    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <BuildCommandLine>make build</BuildCommandLine>
-    <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
-    <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
-    <CleanCommandLine>make clean</CleanCommandLine>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)build</IntDir>
-    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
-    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <BuildCommandLine>make build</BuildCommandLine>
-    <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
-    <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
-    <CleanCommandLine>make clean</CleanCommandLine>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)build</IntDir>
-    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
-    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <BuildCommandLine>make build</BuildCommandLine>
-    <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
-    <NMakeIncludeSearchPath>include;stl/include;kernel/include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
-    <RemoteReBuildCommandLine>make rebuild</RemoteReBuildCommandLine>
-    <RemoteCleanCommandLine>make clean</RemoteCleanCommandLine>
-    <ReBuildCommandLine>make rebuild</ReBuildCommandLine>
-    <CleanCommandLine>make clean</CleanCommandLine>
-    <OutDir>$(ProjectDir)build</OutDir>
-    <IntDir>$(ProjectDir)build</IntDir>
-    <LocalBuildOutputs>$(RemoteDeployDir)/build/os.bin</LocalBuildOutputs>
-    <RemoteBuildOutputs>$(RemoteDeployDir)/build/os.bin;$(RemoteBuildOutputs)</RemoteBuildOutputs>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <BuildCommandLine>make build</BuildCommandLine>
     <RemoteBuildCommandLine>make build</RemoteBuildCommandLine>
@@ -239,36 +113,6 @@
     <ClInclude Include="kernel\include\output.h" />
     <ClInclude Include="stl\include\basic_string.h" />
   </ItemGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <ClCompile>
-      <CppLanguageStandard>c++2a</CppLanguageStandard>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <ClCompile>
-      <CppLanguageStandard>c++2a</CppLanguageStandard>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <ClCompile>
-      <CppLanguageStandard>c++2a</CppLanguageStandard>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <ClCompile>
-      <CppLanguageStandard>c++2a</CppLanguageStandard>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <CppLanguageStandard>c++2a</CppLanguageStandard>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <CppLanguageStandard>c++2a</CppLanguageStandard>
-    </ClCompile>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
       <CppLanguageStandard>c++2a</CppLanguageStandard>
