@@ -95,6 +95,7 @@
     <ClCompile Include="kernel\src\kernel.cpp" />
     <ClCompile Include="kernel\src\memory_manager.cpp" />
     <ClCompile Include="kernel\src\output.cpp" />
+    <ClCompile Include="kernel\src\pic.cpp" />
     <ClCompile Include="stl\include\cstdarg" />
     <ClCompile Include="stl\src\basic_string.cpp" />
     <ClCompile Include="stl\src\char_traits.cpp" />
@@ -116,6 +117,7 @@
     <ClInclude Include="kernel\include\memory_manager.h" />
     <ClInclude Include="kernel\include\multiboot.h" />
     <ClInclude Include="kernel\include\output.h" />
+    <ClInclude Include="kernel\include\pic.h" />
     <ClInclude Include="stl\include\basic_string.h" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">

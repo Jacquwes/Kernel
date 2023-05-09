@@ -34,6 +34,12 @@
     <Filter Include="stl\src\c">
       <UniqueIdentifier>{d3cac738-b9dc-46df-9020-d68a6b5a5b32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="kernel\include\interrupts">
+      <UniqueIdentifier>{4abbf53d-e4c2-4eaa-88fc-c12762dc0d91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kernel\src\interrupts">
+      <UniqueIdentifier>{4cef2783-49f9-462f-93f5-5b76be4ae6be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="linker.ld">
@@ -160,6 +166,8 @@
     </ClCompile>
     <ClCompile Include="kernel\src\interrupt_descriptor_table.cpp">
       <Filter>kernel\src</Filter>
+    <ClCompile Include="kernel\src\pic.cpp">
+      <Filter>kernel\src\interrupts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
