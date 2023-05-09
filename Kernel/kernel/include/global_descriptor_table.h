@@ -110,9 +110,6 @@ namespace kernel {
 		uint8_t limit_high : 4;
 		uint8_t flags : 4;
 		uint8_t base_high;
-		uint8_t flag;
-		uint8_t limit_high;
-		uint8_t base_vhi;
 	} __attribute__((packed));
 
 	struct global_descriptor_table
