@@ -5,22 +5,6 @@ namespace kernel
 {
 	global_descriptor_table* global_descriptor_table::instance = nullptr;
 
-	segment_descriptor::segment_descriptor(uint32_t base, uint32_t limit, uint16_t _flag)
-	{
-		uint64_t* descriptor = (uint64_t*)this;
-
-		// high 32 bit segment
-		*descriptor = limit & 0x000f'0000;
-		*descriptor |= (_flag << 8) & 0x00f0'ff00;
-		*descriptor |= (base >> 16) & 0x0000'00ff;
-		*descriptor |= base & 0xff00'0000;
-
-		*descriptor <<= 0x20;
-
-		*descriptor |= base << 0x10;
-		*descriptor |= limit & 0x0000'ffff;
-	}
-
 	global_descriptor_table::global_descriptor_table()
 	{
 		std::printf("kernel: Initializing global descriptor table.\n");
@@ -42,5 +26,27 @@ namespace kernel
 		__asm volatile ("lgdt (%0)" : : "p" (((uint8_t*)gdtr) + 2));
 
 		std::printf("kernel: Global descriptor table initialized.\n");
+	}
+
+	segment_descriptor::segment_descriptor()
+	{
+		limit_low = 0;
+		base_low = 0;
+		base_mid = 0;
+		access_byte = 0;
+		limit_high = 0;
+		flags = 0;
+		base_high = 0;
+	}
+
+	segment_descriptor::segment_descriptor(uint32_t base, uint32_t limit, uint8_t _access_byte, uint8_t _flags)
+	{
+		limit_low = limit & 0xffff;
+		base_low = base & 0xffff;
+		base_mid = (base >> 16) & 0xff;
+		access_byte = _access_byte;
+		limit_high = (limit >> 16) & 0x0f;
+		flags = _flags;
+		base_high = (base >> 24) & 0xff;
 	}
 }
