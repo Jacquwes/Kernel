@@ -42,6 +42,15 @@ namespace kernel {
 			writable = 1,
 		};
 
+		enum class system_segment_type : uint8_t
+		{
+			tss_16_available,
+			local_descriptor_table,
+			tss_16_busy,
+			tss_32_available = 0x9,
+			tss_32_busy = 0xb,
+		};
+
 		inline constexpr uint8_t generate_access_byte(descriptor_privilege_level dpl, descriptor_type s, executable e, direction_conforming dc, readable_writable rw)
 		{
 			uint8_t result = 0;
@@ -58,6 +67,18 @@ namespace kernel {
 			return result;
 		}
 
+		inline constexpr uint8_t generate_access_byte(descriptor_privilege_level dpl, descriptor_type s, system_segment_type type)
+		{
+			uint8_t result = 0;
+
+			// present bit
+			result |= 1 << 7;
+			result |= static_cast<uint8_t>(dpl) << 5;
+			result |= static_cast<uint8_t>(s) << 4;
+			result |= static_cast<uint8_t>(type);
+
+			return result;
+		}
 	}
 
 	namespace flags
@@ -118,12 +139,45 @@ namespace kernel {
 		uint32_t base;
 	} __attribute__((packed));
 
+	struct task_state_segment
+	{
+		uint16_t link; uint16_t reserved0;
+		uint32_t esp0;
+		uint16_t ss0; uint16_t reserved1;
+		uint32_t esp1;
+		uint16_t ss1; uint16_t reserved2;
+		uint32_t esp2;
+		uint16_t ss2; uint16_t reserved3;
+		uint32_t cr3;
+		uint32_t eip;
+		uint32_t eflags;
+		uint32_t eax;
+		uint32_t ecx;
+		uint32_t edx;
+		uint32_t ebx;
+		uint32_t esp;
+		uint32_t ebp;
+		uint32_t esi;
+		uint32_t edi;
+		uint16_t es; uint16_t reserved4;
+		uint16_t cs; uint16_t reserved5;
+		uint16_t ss; uint16_t reserved6;
+		uint16_t ds; uint16_t reserved7;
+		uint16_t fs; uint16_t reserved8;
+		uint16_t gs; uint16_t reserved9;
+		uint16_t ldtr; uint16_t reserved10;
+		uint16_t reserved11; uint16_t iopb;
+		uint32_t ssp;
+	} __attribute__((packed));
+
 	struct global_descriptor_table
 	{
 		global_descriptor_table();
 
 		static global_descriptor_table* instance;
-		
+
+		task_state_segment tss;
+
 		global_descriptor_table_register gdtr;
 		segment_descriptor descriptors[4];
 
