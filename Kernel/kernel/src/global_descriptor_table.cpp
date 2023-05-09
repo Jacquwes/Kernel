@@ -8,6 +8,7 @@ namespace kernel
 	global_descriptor_table::global_descriptor_table()
 	{
 		std::printf("kernel: Initializing global descriptor table.\n");
+		__asm__ volatile("cli");
 
 		instance = this;
 
@@ -19,11 +20,11 @@ namespace kernel
 		descriptors[2] = segment_descriptor(0, 0xfffff, 0x9a);
 		// kernel data segment
 		descriptors[3] = segment_descriptor(0, 0xfffff, 0x92);
+		global_descriptor_table_register gdtr;
+		gdtr.base = (uint32_t)&descriptors[0];
+		gdtr.limit = (uint16_t)sizeof(segment_descriptor) * 8;
 
-		uint32_t gdtr[2];
-		gdtr[0] = (uint32_t)this;
-		gdtr[1] = sizeof(descriptors) - 1;
-		__asm volatile ("lgdt (%0)" : : "p" (((uint8_t*)gdtr) + 2));
+		asm volatile("lgdt %0" : : "m" (gdtr));
 
 		std::printf("kernel: Global descriptor table initialized.\n");
 	}
