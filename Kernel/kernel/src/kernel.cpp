@@ -15,8 +15,6 @@
 void main(multiboot_info_t* info, uint32_t magic)
 {
 	kernel::output();
-	kernel::global_descriptor_table();
-	kernel::interrupt_descriptor_table();
 	kernel::memory_manager(info, magic);
-
+	kernel::global_descriptor_table();
 }
