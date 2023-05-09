@@ -112,12 +112,24 @@ namespace kernel {
 		uint8_t base_high;
 	} __attribute__((packed));
 
+	struct global_descriptor_table_register
+	{
+		uint16_t limit;
+		uint32_t base;
+	} __attribute__((packed));
+
 	struct global_descriptor_table
 	{
 		global_descriptor_table();
 
 		static global_descriptor_table* instance;
 		
+		global_descriptor_table_register gdtr;
 		segment_descriptor descriptors[4];
-	} __attribute__((packed));;
+
+		inline constexpr segment_descriptor& null_descriptor() { return descriptors[0]; }
+		inline constexpr segment_descriptor& kernel_code_descriptor() { return descriptors[1]; }
+		inline constexpr segment_descriptor& kernel_data_descriptor() { return descriptors[2]; }
+		inline constexpr segment_descriptor& task_state_descriptor() { return descriptors[3]; }
+	};
 }
