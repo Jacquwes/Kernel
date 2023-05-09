@@ -12,7 +12,6 @@ namespace kernel
 
 		instance = this;
 
-
 		null_descriptor() = segment_descriptor();
 
 		using namespace access_byte;
