@@ -12,14 +12,35 @@ namespace kernel
 
 		instance = this;
 
-		// null descriptor
-		descriptors[0] = segment_descriptor(0, 0, 0);
-		// unused
-		descriptors[1] = segment_descriptor(0, 0, 0);
-		// kernel code segment
-		descriptors[2] = segment_descriptor(0, 0xfffff, 0x9a);
-		// kernel data segment
-		descriptors[3] = segment_descriptor(0, 0xfffff, 0x92);
+		null_descriptor() = segment_descriptor();
+
+		using namespace access_byte;
+		using namespace flags;
+
+		{
+			auto flags = generate_flags(granularity_flag::page, size_flag::protected_32, long_mode_flag::legacy);
+			auto access = generate_access_byte(descriptor_privilege_level::ring0, descriptor_type::code, executable::code,
+											   direction_conforming::non_conforming, readable_writable::readable);
+
+			kernel_code_descriptor() = segment_descriptor(0, 0xfffff, access, flags);
+		}
+
+		{
+			auto flags = generate_flags(granularity_flag::page, size_flag::protected_32, long_mode_flag::legacy);
+			auto access = generate_access_byte(descriptor_privilege_level::ring0, descriptor_type::code, executable::data,
+											   direction_conforming::non_conforming, readable_writable::writable);
+
+			kernel_data_descriptor() = segment_descriptor(0, 0xfffff, access, flags);
+		}
+
+		{
+			auto flags = generate_flags(granularity_flag::byte, size_flag::protected_16, long_mode_flag::legacy);
+			auto access = generate_access_byte(descriptor_privilege_level::ring0, descriptor_type::system,
+											   system_segment_type::tss_32_available);
+
+			task_state_descriptor() = segment_descriptor((uint32_t)&tss, sizeof(task_state_segment), access, flags);
+		}
+
 		global_descriptor_table_register gdtr;
 		gdtr.base = (uint32_t)&descriptors[0];
 		gdtr.limit = (uint16_t)sizeof(segment_descriptor) * 8;
