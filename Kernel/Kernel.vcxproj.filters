@@ -40,6 +40,12 @@
     <Filter Include="kernel\src\interrupts">
       <UniqueIdentifier>{4cef2783-49f9-462f-93f5-5b76be4ae6be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="kernel\include\hardware">
+      <UniqueIdentifier>{4172c3d3-47a5-4c7c-a4c0-05bea7c9e356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kernel\src\hardware">
+      <UniqueIdentifier>{ac2aa155-19d8-4810-a577-a2251594cda9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="linker.ld">
@@ -109,7 +115,7 @@
       <Filter>stl\include\c</Filter>
     </None>
     <None Include="kernel\src\interrupts.s">
-      <Filter>kernel\src</Filter>
+      <Filter>kernel\src\interrupts</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -161,13 +167,26 @@
     <ClCompile Include="stl\src\cstring.cpp">
       <Filter>stl\src\c</Filter>
     </ClCompile>
-    <ClCompile Include="kernel\src\global_descriptor_table.cpp">
-      <Filter>kernel\src</Filter>
-    </ClCompile>
     <ClCompile Include="kernel\src\interrupt_descriptor_table.cpp">
-      <Filter>kernel\src</Filter>
+      <Filter>kernel\src\interrupts</Filter>
+    </ClCompile>
     <ClCompile Include="kernel\src\pic.cpp">
       <Filter>kernel\src\interrupts</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\interrupt_handlers.cpp">
+      <Filter>kernel\src\interrupts</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\exception_handlers.cpp">
+      <Filter>kernel\src\interrupts</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\include\keyboard_manager.h">
+      <Filter>kernel\include\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\keyboard_manager.cpp">
+      <Filter>kernel\src\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\global_descriptor_table.cpp">
+      <Filter>kernel\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,10 +205,13 @@
     <ClInclude Include="stl\include\basic_string.h">
       <Filter>stl\include\string</Filter>
     </ClInclude>
-    <ClInclude Include="kernel\include\global_descriptor_table.h">
-      <Filter>kernel\include</Filter>
-    </ClInclude>
     <ClInclude Include="kernel\include\interrupt_descriptor_table.h">
+      <Filter>kernel\include\interrupts</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\pic.h">
+      <Filter>kernel\include\interrupts</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\global_descriptor_table.h">
       <Filter>kernel\include</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,6 +15,7 @@ namespace kernel
 
 		static output* instance;
 
+		void move_cursor(uint8_t const& x, uint8_t const& y);
 		void putchar(char const& c);
 		void scroll(uint8_t const& lines = 1);
 

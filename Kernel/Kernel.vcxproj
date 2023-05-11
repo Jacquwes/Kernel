@@ -90,11 +90,13 @@
     <None Include="stl\include\utility" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="kernel\include\keyboard_manager.h" />
     <ClCompile Include="kernel\src\exception_handlers.cpp" />
     <ClCompile Include="kernel\src\global_descriptor_table.cpp" />
     <ClCompile Include="kernel\src\interrupt_handlers.cpp" />
     <ClCompile Include="kernel\src\interrupt_descriptor_table.cpp" />
     <ClCompile Include="kernel\src\kernel.cpp" />
+    <ClCompile Include="kernel\src\keyboard_manager.cpp" />
     <ClCompile Include="kernel\src\memory_manager.cpp" />
     <ClCompile Include="kernel\src\output.cpp" />
     <ClCompile Include="kernel\src\pic.cpp" />
