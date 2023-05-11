@@ -1,13 +1,14 @@
-.macro isr_error_stub num
-isr_stub_\num:
-	call exception_handler
-	iret
+.macro isr_error_stub number
+isr_stub_\number:
+	push $\number
+	jmp _exception_handler
 .endm
 
-.macro isr_no_error_stub num
-isr_stub_\num:
-	call exception_handler
-	iret
+.macro isr_no_error_stub number
+isr_stub_\number:
+	push $0
+	push $\number
+	jmp _exception_handler
 .endm
 
 .altmacro
@@ -34,7 +35,7 @@ isr_error_stub    13
 isr_error_stub    14
 isr_no_error_stub 15
 isr_no_error_stub 16
-isr_error_stub    17
+isr_no_error_stub 17
 isr_no_error_stub 18
 isr_no_error_stub 19
 isr_no_error_stub 20
@@ -47,7 +48,7 @@ isr_no_error_stub 26
 isr_no_error_stub 27
 isr_no_error_stub 28
 isr_no_error_stub 29
-isr_error_stub    30
+isr_no_error_stub 30
 isr_no_error_stub 31
 
 .global isr_stub_table
@@ -57,3 +58,30 @@ isr_stub_table:
 	isr_insert %i
 	.set i, i+1
 .endr
+
+_exception_handler:
+	pusha
+
+	push %ds
+	push %es
+	push %fs
+	push %gs
+
+	mov $0x10, %ax
+	mov %ax, %ds
+	mov %ax, %es
+	mov %ax, %fs
+	mov %ax, %gs
+
+	push %esp
+	call exception_handler
+	add $4, %esp
+
+	pop %gs
+	pop %fs
+	pop %es
+	pop %ds
+	popa
+
+	add $8, %esp
+	iret
