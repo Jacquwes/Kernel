@@ -179,11 +179,11 @@ namespace kernel {
 		task_state_segment tss;
 
 		global_descriptor_table_register gdtr;
-		segment_descriptor descriptors[4];
+		segment_descriptor descriptors[5];
 
 		inline constexpr segment_descriptor& null_descriptor() { return descriptors[0]; }
-		inline constexpr segment_descriptor& kernel_code_descriptor() { return descriptors[1]; }
-		inline constexpr segment_descriptor& kernel_data_descriptor() { return descriptors[2]; }
-		inline constexpr segment_descriptor& task_state_descriptor() { return descriptors[3]; }
+		inline constexpr segment_descriptor& kernel_code_descriptor() { return descriptors[2]; }
+		inline constexpr segment_descriptor& kernel_data_descriptor() { return descriptors[3]; }
+		inline constexpr segment_descriptor& task_state_descriptor() { return descriptors[4]; }
 	};
 }

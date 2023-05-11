@@ -1,5 +1,6 @@
 #include "global_descriptor_table.h"
 #include <cstdio>
+#include <cstring>
 
 namespace kernel
 {
@@ -7,12 +8,15 @@ namespace kernel
 
 	global_descriptor_table::global_descriptor_table()
 	{
-		std::printf("kernel: Initializing global descriptor table.\n");
+		std::printf("Global descriptor table > Initializing.\n");
 		__asm__ volatile("cli");
 
 		instance = this;
 
 		null_descriptor() = segment_descriptor();
+
+		// receiving irq0 causes a general protection fault if this is not present
+		descriptors[1] = segment_descriptor();
 
 		using namespace access_byte;
 		using namespace flags;
@@ -38,16 +42,25 @@ namespace kernel
 			auto access = generate_access_byte(descriptor_privilege_level::ring0, descriptor_type::system,
 											   system_segment_type::tss_32_available);
 
-			task_state_descriptor() = segment_descriptor((uint32_t)&tss, sizeof(task_state_segment), access, flags);
+			task_state_descriptor() = segment_descriptor((uint32_t)&tss, sizeof(task_state_segment) - 1, access, flags);
+
+			std::memset((uint8_t*)&tss, 0, sizeof(task_state_segment));
+			tss.ss0 = 0x10;
+			tss.ss = 0x10;
+			tss.ds = 0x10;
+			tss.es = 0x10;
+			tss.fs = 0x10;
+			tss.gs = 0x10;
+			tss.cs = 0x08;
 		}
 
 		global_descriptor_table_register gdtr;
 		gdtr.base = (uint32_t)&descriptors[0];
-		gdtr.limit = (uint16_t)sizeof(segment_descriptor) * 8;
+		gdtr.limit = (uint16_t)sizeof(segment_descriptor) * 5;
 
 		asm volatile("lgdt %0" : : "m" (gdtr));
 
-		std::printf("kernel: Global descriptor table initialized.\n");
+		std::printf("Global descriptor table > Initialized.\n");
 	}
 
 	segment_descriptor::segment_descriptor()
