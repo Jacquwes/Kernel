@@ -53,6 +53,6 @@ namespace kernel
 	{
 		interrupt_descriptor_table();
 
-		interrupt_descriptor descriptors[32];
-	} __attribute__((packed));
+		interrupt_descriptor descriptors[256];
+	};
 }

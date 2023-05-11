@@ -36,11 +36,20 @@ namespace kernel
 
 	interrupt_descriptor_table::interrupt_descriptor_table()
 	{
-		std::printf("kernel: Initializing interrupt descriptor table.\n");
+		std::printf("Interrupt descriptor table > Initializing.\n");
 
 		std::memset(descriptors, 0, sizeof(descriptors));
 
-		for (int i = 0; i < 256; i++)
+		std::memset(descriptors, 0, sizeof(interrupt_descriptor) * 256);
+
+		using namespace type_attributes;
+
+		for (int i = 0; i < 0x20; i++)
+		{
+			descriptors[i] = interrupt_descriptor((uint32_t)isr_stub_table[i],
+												  generate_type_attributes(gate_type::trap_gate_32, descriptor_privilege_level::ring0));
+		}
+
 		{
 			descriptors[i] = interrupt_descriptor(
 				(uint32_t)isr_stub_table[i],
@@ -48,10 +57,12 @@ namespace kernel
 				0x8e);
 		}
 
-		uint32_t idtr[2];
-		idtr[0] = sizeof(descriptors) - 1;
-		idtr[1] = (uint32_t)descriptors;
-		__asm volatile ("lidt %0" : : "m" (idtr));
+
+		interrupt_descriptor_table_register idtr;
+		idtr.base = (uint32_t)&descriptors[0];
+		idtr.limit = (uint16_t)sizeof(interrupt_descriptor) * 256 - 1;
+
+		asm volatile ("lidt %0" : : "m" (idtr));
 		__asm__ volatile ("sti");
 
 		std::printf("kernel: Interrupt descriptor table initialized.\n");
