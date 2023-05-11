@@ -1,6 +1,8 @@
 #include <cstdio>
+#include <cstring>
 
 #include <output.h>
+#include <pic.h>
 
 namespace kernel
 {
@@ -9,7 +11,17 @@ namespace kernel
 	output::output()
 	{
 		instance = this;
-		std::printf("kernel: Output initialized.\n");
+		std::printf("Output > Initialized.\n");
+	}
+
+	void output::move_cursor(uint8_t const& x, uint8_t const& y)
+	{
+		uint16_t pos = y * VGA_WIDTH + x;
+
+		pic::outb(0x3d4, 0x0f);
+		pic::outb(0x3d5, pos & 0xff);
+		pic::outb(0x3d4, 0x0e);
+		pic::outb(0x3d5, (pos >> 8) & 0xff);
 	}
 
 	void output::putchar(char const& c)
@@ -18,6 +30,41 @@ namespace kernel
 		{
 			cursorX = 0;
 			cursorY++;
+
+			move_cursor(cursorX, cursorY);
+
+			return;
+		}
+
+		if (c == '\b')
+		{
+			if (cursorX == 0)
+			{
+				cursorX = VGA_WIDTH - 1;
+				cursorY--;
+			}
+			else
+				cursorX--;
+
+			VGA_ADDRESS[(cursorY * VGA_WIDTH) + cursorX] = ' ' | (7 << 8);
+
+			move_cursor(cursorX, cursorY);
+
+			return;
+		}
+
+		if (c == '\t')
+		{
+			cursorX += (cursorX % 4) == 0 ? 4 : cursorX % 4;
+
+			if (cursorX >= VGA_WIDTH)
+			{
+				cursorX = 0;
+				cursorY++;
+			}
+
+			move_cursor(cursorX, cursorY);
+
 			return;
 		}
 
@@ -33,17 +80,23 @@ namespace kernel
 
 		if (cursorY >= VGA_HEIGHT)
 			scroll();
+		else
+			move_cursor(cursorX, cursorY);
 	}
 
 	void output::scroll(uint8_t const& lines)
 	{
-		for (std::size_t i = 0; i < lines; i++)
-		{
-			cursorX = cursorY = 0;
-			for (uint16_t cursor = 0; cursor < VGA_WIDTH * (VGA_HEIGHT - 1); cursor++)
-				putchar(VGA_ADDRESS[(cursorY + 1) * VGA_WIDTH + cursorX]);
-			for (uint16_t cursor = 0; cursor < VGA_WIDTH; cursor++)
-				VGA_ADDRESS[(cursorY * VGA_WIDTH) + cursorX] = ' ' | (7 << 8);
-		}
+		std::memcpy(VGA_ADDRESS, VGA_ADDRESS + VGA_WIDTH, VGA_WIDTH * (VGA_HEIGHT - 1));
+
+		cursorX = 0;
+		cursorY -= lines;
+
+		if (cursorY < 0)
+			cursorY = 0;
+
+		for (uint8_t i = 0; i < lines; i++)
+			VGA_ADDRESS[(VGA_HEIGHT - 1) * VGA_WIDTH + i] = ' ' | (7 << 8);
+
+		move_cursor(cursorX, cursorY);
 	}
 }
