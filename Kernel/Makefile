@@ -35,25 +35,31 @@ build/kernel/%.o: kernel/src/%.s
 	$(i686-elf-as) $< -o $@
 
 boot: $(boot_objects)
+	rm -rf bin obj
 
 
 
 build/stl/%.o: stl/src/%.cpp
 	$(i686-elf-g++) -c $< -o $@ $(cpp_flags)
+	rm -rf bin obj
 
 stl: $(stl_objects)
+	rm -rf bin obj
 
 
 
 build/kernel/%.o: kernel/src/%.cpp
 	$(i686-elf-g++) -c $< -o $@ $(cpp_flags)
+	rm -rf bin obj
 
 kernel: $(kernel_objects)
+	rm -rf bin obj
 
 	
 
 link: boot stl kernel
 	$(i686-elf-g++) -T linker.ld -o build/os.bin $(kernel_objects) $(stl_objects) $(boot_objects) $(crtbegin_object) $(crtend_object) $(ld_flags)
+	rm -rf bin obj
 
 build: setup link
 	mkdir -p build/isodir/boot/grub
