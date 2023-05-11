@@ -3,6 +3,7 @@
 
 #include "interrupt_descriptor_table.h"
 #include "global_descriptor_table.h"
+#include "pic.h"
 
 extern void* isr_stub_table[];
 
@@ -31,7 +32,7 @@ namespace kernel
 	{
 		std::printf("Interrupt descriptor table > Initializing.\n");
 
-		std::memset(descriptors, 0, sizeof(descriptors));
+		pic::init();
 
 		std::memset(descriptors, 0, sizeof(interrupt_descriptor) * 256);
 
@@ -58,6 +59,10 @@ namespace kernel
 		asm volatile ("lidt %0" : : "m" (idtr));
 		__asm__ volatile ("sti");
 
-		std::printf("kernel: Interrupt descriptor table initialized.\n");
+		pic::unmask(0);
+		pic::unmask(1);
+		pic::unmask(pic::PIC_EOI);
+
+		std::printf("Interrupt descriptor table > Initialized.\n");
 	}
 }

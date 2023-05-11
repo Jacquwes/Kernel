@@ -1,7 +1,12 @@
 #include "pic.h"
 
-namespace kernel
+namespace kernel::pic
 {
+	void wait()
+	{
+		outb(0x80, 0);
+	}
+
 	uint8_t inb(uint16_t port)
 	{
 		uint8_t val;
@@ -9,41 +14,84 @@ namespace kernel
 		return val;
 	}
 
-	void io_wait()
-	{
-		outb(0x80, 0);
-	}
-
 	void outb(uint16_t port, uint8_t val)
 	{
-		asm volatile("outb %0, %1" : "=a"(val) : "Nd"(port));
+		asm volatile("outb %0, %1" : : "a"(val), "Nd"(port));
 	}
 
-	void init_pic()
+	void init()
 	{
+		int master_mask = inb(MASTER_PIC_DATA);
+		int slave_mask = inb(SLAVE_PIC_DATA);
+
 		// start initialization sequence
-		outb(MASTER_PIC_COMMAND, ICW1_INIT | ICW1_ICW4);
-		io_wait();
-		outb(SLAVE_PIC_COMMAND, ICW1_INIT | ICW1_ICW4);
-		io_wait();
+		outb(MASTER_PIC_COMMAND, ICW1_INIT | ICW1_ICW4); // 0x11
+		outb(SLAVE_PIC_COMMAND, ICW1_INIT | ICW1_ICW4); // 0x11
 
 		// set vector offsets
-		outb(MASTER_PIC_DATA, 0x20);
-		io_wait();
-		outb(SLAVE_PIC_DATA, 0x28);
-		io_wait();
+		outb(MASTER_PIC_DATA, MASTER_PIC_ADDRESS); // 0x20
+		outb(SLAVE_PIC_DATA, SLAVE_PIC_ADDRESS); // 0x28
 
 		// tell master PIC that there is a slave PIC at IRQ2 (0000 0100)
 		outb(MASTER_PIC_DATA, 0x04);
-		io_wait();
 		// tell slave PIC its cascade identity (0000 0010)
 		outb(SLAVE_PIC_DATA, 0x02);
-		io_wait();
 
-		// set mode
-		outb(MASTER_PIC_DATA, ICW4_8086);
-		io_wait();
-		outb(SLAVE_PIC_DATA, ICW4_8086);
-		io_wait();
+		// set x86 mode
+		outb(MASTER_PIC_DATA, ICW4_8086); // 0x01
+		outb(SLAVE_PIC_DATA, ICW4_8086); // 0x01
+
+		// mask registers
+		outb(MASTER_PIC_DATA, 0xff);
+		outb(SLAVE_PIC_DATA, 0xff);
+	}
+
+	void mask(uint8_t irq)
+	{
+		uint16_t port;
+		uint8_t value;
+		if (irq < 8)
+		{
+			port = MASTER_PIC_DATA;
+		}
+		else
+		{
+			port = SLAVE_PIC_DATA;
+			irq -= 8;
+		}
+		value = inb(port) | (1 << irq);
+		outb(port, value);
+	}
+
+	void unmask(uint8_t irq)
+	{
+		uint16_t port;
+		uint8_t value;
+		if (irq < 8)
+		{
+			port = MASTER_PIC_DATA;
+		}
+		else
+		{
+			port = SLAVE_PIC_DATA;
+			irq -= 8;
+		}
+		value = inb(port) & ~(1 << irq);
+		outb(port, value);
+	}
+
+	uint16_t get_irr()
+	{
+		outb(MASTER_PIC_COMMAND, PIC_READ_IRR);
+		outb(SLAVE_PIC_COMMAND, PIC_READ_IRR);
+		return (inb(SLAVE_PIC_COMMAND) << 8) | inb(MASTER_PIC_COMMAND);
+	}
+
+	void send_eoi(uint8_t irq)
+	{
+		if (irq >= 8)
+			outb(SLAVE_PIC_COMMAND, PIC_EOI);
+
+		outb(MASTER_PIC_COMMAND, PIC_EOI);
 	}
 }
