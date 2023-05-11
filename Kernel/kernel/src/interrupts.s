@@ -17,7 +17,20 @@ isr_stub_\number:
 	.long isr_stub_\number
 .endm
 
-.global exception_handler
+.macro irq_stub number
+irq_stub_\number:
+	push $\number
+	call irq_handler
+	add	$4, %esp
+	iret
+.endm
+
+.altmacro
+
+.macro irq_insert number
+	.long irq_stub_\number
+.endm
+
 isr_no_error_stub 0
 isr_no_error_stub 1
 isr_no_error_stub 2
@@ -51,12 +64,24 @@ isr_no_error_stub 29
 isr_no_error_stub 30
 isr_no_error_stub 31
 
+irq_stub 0
+irq_stub 1
+
+
 .global isr_stub_table
 isr_stub_table:
 .set i,0
 .rept 32
 	isr_insert %i
-	.set i, i+1
+	.set i, i + 1
+.endr
+
+.global irq_stub_table
+irq_stub_table:
+.set i,0
+.rept 2
+	irq_insert %i
+	.set i, i + 1
 .endr
 
 _exception_handler:

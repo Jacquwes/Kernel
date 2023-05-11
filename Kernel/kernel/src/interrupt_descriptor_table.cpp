@@ -6,6 +6,7 @@
 #include "pic.h"
 
 extern void* isr_stub_table[];
+extern void* irq_stub_table[];
 
 namespace kernel
 {
@@ -44,11 +45,10 @@ namespace kernel
 												  generate_type_attributes(gate_type::trap_gate_32, descriptor_privilege_level::ring0));
 		}
 
+		for (int i = 0x20; i < 0x22; i++)
 		{
-			descriptors[i] = interrupt_descriptor(
-				(uint32_t)isr_stub_table[i],
-				(uint8_t*)&global_descriptor_table::instance->descriptors[2] - (uint8_t*)&global_descriptor_table::instance->descriptors,
-				0x8e);
+			descriptors[i] = interrupt_descriptor((uint32_t)irq_stub_table[i - 0x20],
+												  generate_type_attributes(gate_type::interrupt_gate_32, descriptor_privilege_level::ring0));
 		}
 
 
