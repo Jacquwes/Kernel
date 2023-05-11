@@ -4,13 +4,6 @@
 #include "interrupt_descriptor_table.h"
 #include "global_descriptor_table.h"
 
-extern "C" __attribute__((noreturn)) void exception_handler(void);
-void exception_handler(void)
-{
-	std::printf("kernel: Exception handler called.\n");
-	while (true);
-}
-
 extern void* isr_stub_table[];
 
 namespace kernel
