@@ -15,13 +15,23 @@ extern void* isr_stub_table[];
 
 namespace kernel
 {
-	interrupt_descriptor::interrupt_descriptor(uint32_t base, uint16_t _selector, uint8_t _flags)
+	interrupt_descriptor::interrupt_descriptor()
 	{
-		base_low = base & 0xffff;
-		base_high = (base >> 16) & 0xffff;
-		selector = _selector;
+		offset_low = 0;
+		segment_selector = 0;
 		reserved = 0;
-		flags = _flags | 0x60;
+		type_attributes = 0;
+		offset_high = 0;
+	}
+
+	interrupt_descriptor::interrupt_descriptor(uint32_t offset, uint8_t _type_attributes)
+	{
+		offset_low = offset & 0xffff;
+		segment_selector = (uint16_t)
+			((uint32_t)&global_descriptor_table::instance->kernel_code_descriptor() - (uint32_t)&global_descriptor_table::instance->descriptors);
+		reserved = 0;
+		type_attributes = _type_attributes;
+		offset_high = (offset >> 16) & 0xffff;
 	}
 
 	interrupt_descriptor_table::interrupt_descriptor_table()
