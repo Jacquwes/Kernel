@@ -28,6 +28,9 @@ setup:
 	cd $(prefix)
 	mkdir -p build/kernel
 	mkdir -p build/stl
+	cd build
+	qemu-img create disk.img 512M
+	cd ..
 
 
 
@@ -69,7 +72,7 @@ build: setup link
 	rm -rf bin obj
 
 start: build
-	qemu-system-i386 -cdrom build/os.iso -s
+	qemu-system-i386 -cdrom build/os.iso -s  -drive format=raw,file=./build/disk.img,media=disk,index=0
 
 clean:
 	rm -rf build
