@@ -14,7 +14,7 @@ namespace kernel
 		std::printf("Keyboard manager > Initialized.\n");
 	}
 
-	void keyboard_manager::handle_scancode_azerty(keyboard_scancodes::keyboard_scancode_azerty const& scancode)
+	void keyboard_manager::handle_scancode(keyboard_scancodes::keyboard_scancode const& scancode)
 	{
 		if (scancode & 0x80)
 		{
@@ -35,52 +35,52 @@ namespace kernel
 			using namespace keyboard_scancodes;
 #define s(a, b) this->shift_pressed ? b : a
 #pragma region first_row
-		case pow2_pressed:
-			output::instance->putchar('²');
+		case backtick_pressed:
+			output::instance->putchar('`');
 			break;
 
-		case ampersand_pressed:
-			output::instance->putchar(s('&', '1'));
+		case one_pressed:
+			output::instance->putchar(s('1', '!'));
 			break;
 
-		case eacute_pressed:
-			output::instance->putchar(s('é','2'));
+		case two_pressed:
+			output::instance->putchar(s('2', '"'));
 			break;
 
-		case quote_double_pressed:
-			output::instance->putchar(s('"', '3'));
+		case three_pressed:
+			output::instance->putchar(s('3', '£'));
 			break;
 
-		case quote_simple_pressed:
-			output::instance->putchar(s('\'', '4'));
+		case four_pressed:
+			output::instance->putchar(s('4', '$'));
 			break;
 
-		case left_parenthesis_pressed:
-			output::instance->putchar(s('(', '5'));
+		case five_pressed:
+			output::instance->putchar(s('5', '%'));
+			break;
+
+		case six_pressed:
+			output::instance->putchar(s('6', '^'));
+			break;
+
+		case seven_pressed:
+			output::instance->putchar(s('7', '&'));
+			break;
+
+		case eight_pressed:
+			output::instance->putchar(s('8', '*'));
+			break;
+
+		case nine_pressed:
+			output::instance->putchar(s('9', '('));
+			break;
+
+		case zero_pressed:
+			output::instance->putchar(s('0', ')'));
 			break;
 
 		case minus_pressed:
-			output::instance->putchar(s('-', '6'));
-			break;
-
-		case egrave_pressed:
-			output::instance->putchar(s('è', '7'));
-			break;
-
-		case underscore_pressed:
-			output::instance->putchar(s('_', '8'));
-			break;
-
-		case c_cedilla_pressed:
-			output::instance->putchar(s('ç', '9'));
-			break;
-
-		case a_grave_pressed:
-			output::instance->putchar(s('à', '0'));
-			break;
-
-		case right_parenthesis_pressed:
-			output::instance->putchar(s(')', '°'));
+			output::instance->putchar(s('-', '_'));
 			break;
 
 		case equals_pressed:
@@ -97,12 +97,12 @@ namespace kernel
 			output::instance->putchar('\t');
 			break;
 
-		case a_pressed:
-			output::instance->putchar(s('a', 'A'));
+		case q_pressed:
+			output::instance->putchar(s('q', 'Q'));
 			break;
 
-		case z_pressed:
-			output::instance->putchar(s('z', 'Z'));
+		case w_pressed:
+			output::instance->putchar(s('w', 'W'));
 			break;
 
 		case e_pressed:
@@ -137,12 +137,12 @@ namespace kernel
 			output::instance->putchar(s('p', 'P'));
 			break;
 
-		case circumflex_pressed:
-			output::instance->putchar(s('^', '¨'));
+		case left_bracket_pressed:
+			output::instance->putchar(s('[', '{'));
 			break;
 
-		case dollar_pressed:
-			output::instance->putchar(s('$', '£'));
+		case right_bracket_pressed:
+			output::instance->putchar(s(']', '}'));
 			break;
 
 		case enter_pressed:
@@ -154,8 +154,8 @@ namespace kernel
 		case caps_lock_pressed:
 			break;
 
-		case q_pressed:
-			output::instance->putchar(s('q', 'Q'));
+		case a_pressed:
+			output::instance->putchar(s('a', 'A'));
 			break;
 
 		case s_pressed:
@@ -190,17 +190,17 @@ namespace kernel
 			output::instance->putchar(s('l', 'L'));
 			break;
 
-		case m_pressed:
-			output::instance->putchar(s('m', 'M'));
+		case semi_colon_pressed:
+			output::instance->putchar(s(';', ':'));
 			break;
 
-		case ugrave_pressed:
-			output::instance->putchar(s('ù', '%'));
+		case single_quote_pressed:
+			output::instance->putchar(s('\'', '@'));
 			break;
 
-		case asterisk_pressed:
-			output::instance->putchar(s('*', 'µ'));
-			break;
+			//case hash_pressed:
+				//output::instance->putchar(s('#', '~'));
+				//break;
 #pragma endregion
 
 #pragma region fourth_row
@@ -208,11 +208,11 @@ namespace kernel
 			shift_pressed = true;
 			break;
 
-		case less_than_pressed:
-			output::instance->putchar(s('<', '>'));
+		case backslash_pressed:
+			output::instance->putchar(s('\\', '|'));
 			break;
-		case w_pressed:
-			output::instance->putchar(s('w', 'W'));
+		case z_pressed:
+			output::instance->putchar(s('z', 'Z'));
 			break;
 		case x_pressed:
 			output::instance->putchar(s('x', 'X'));
@@ -229,17 +229,17 @@ namespace kernel
 		case n_pressed:
 			output::instance->putchar(s('n', 'N'));
 			break;
+		case m_pressed:
+			output::instance->putchar(s('m', 'M'));
+			break;
 		case comma_pressed:
-			output::instance->putchar(s(',', '?'));
+			output::instance->putchar(s(',', '<'));
 			break;
-		case semicolon_pressed:
-			output::instance->putchar(s(';', '.'));
+		case dot_pressed:
+			output::instance->putchar(s('.', '>'));
 			break;
-		case colon_pressed:
-			output::instance->putchar(s(':', '/'));
-			break;
-		case exclamation_mark_pressed:
-			output::instance->putchar(s('!', '§'));
+		case slash_pressed:
+			output::instance->putchar(s('/', '?'));
 			break;
 		case right_shift_pressed:
 			shift_pressed = true;
