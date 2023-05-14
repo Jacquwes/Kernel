@@ -19,11 +19,32 @@ namespace kernel::pic
 		asm volatile("outb %0, %1" : : "a"(val), "Nd"(port));
 	}
 
+	uint16_t inw(uint16_t port)
+	{
+		uint16_t val;
+		asm volatile("inw %1, %0" : "=a"(val) : "dN"(port));
+		return val;
+	}
+
+	void outw(uint16_t port, uint16_t val)
+	{
+		asm volatile("outw %0, %1" : : "a"(val), "dN"(port));
+	}
+
+	uint32_t inl(uint16_t port)
+	{
+		uint32_t val;
+		asm volatile("inl %%dx, %%eax" : "=a"(val) : "dN"(port));
+		return val;
+	}
+
+	void outl(uint16_t port, uint32_t val)
+	{
+		asm volatile("outl %%eax, %%dx" : : "dN"(port), "a"(val));
+	}
+
 	void init()
 	{
-		int master_mask = inb(MASTER_PIC_DATA);
-		int slave_mask = inb(SLAVE_PIC_DATA);
-
 		// start initialization sequence
 		outb(MASTER_PIC_COMMAND, ICW1_INIT | ICW1_ICW4); // 0x11
 		outb(SLAVE_PIC_COMMAND, ICW1_INIT | ICW1_ICW4); // 0x11
