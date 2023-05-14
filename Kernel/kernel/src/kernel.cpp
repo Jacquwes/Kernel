@@ -11,6 +11,7 @@
 #include <memory_manager.h>
 #include <multiboot.h>
 #include <output.h>
+#include <pci.h>
 
 static inline bool are_interrupts_enabled()
 {
@@ -28,6 +29,7 @@ void main(multiboot_info_t* info, uint32_t magic)
 	kernel::global_descriptor_table();
 	kernel::interrupt_descriptor_table();
 	kernel::keyboard_manager();
+	kernel::pci_manager();
 
 	for (;;)
 		__asm__ volatile ("hlt");

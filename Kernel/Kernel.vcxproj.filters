@@ -170,9 +170,6 @@
     <ClCompile Include="kernel\src\interrupt_descriptor_table.cpp">
       <Filter>kernel\src\interrupts</Filter>
     </ClCompile>
-    <ClCompile Include="kernel\src\pic.cpp">
-      <Filter>kernel\src\interrupts</Filter>
-    </ClCompile>
     <ClCompile Include="kernel\src\interrupt_handlers.cpp">
       <Filter>kernel\src\interrupts</Filter>
     </ClCompile>
@@ -187,6 +184,12 @@
     </ClCompile>
     <ClCompile Include="kernel\src\global_descriptor_table.cpp">
       <Filter>kernel\src</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\pic.cpp">
+      <Filter>kernel\src\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="kernel\src\pci.cpp">
+      <Filter>kernel\src\hardware</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -208,11 +211,14 @@
     <ClInclude Include="kernel\include\interrupt_descriptor_table.h">
       <Filter>kernel\include\interrupts</Filter>
     </ClInclude>
-    <ClInclude Include="kernel\include\pic.h">
-      <Filter>kernel\include\interrupts</Filter>
-    </ClInclude>
     <ClInclude Include="kernel\include\global_descriptor_table.h">
       <Filter>kernel\include</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\pic.h">
+      <Filter>kernel\include\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\pci.h">
+      <Filter>kernel\include\hardware</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
