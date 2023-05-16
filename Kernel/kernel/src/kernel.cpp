@@ -1,17 +1,4 @@
-#include <cstdint>
-#include <cstdio>
-#include <memory>
-#include <new>
-#include <string>
-
-#include <kernel.h>
-#include <global_descriptor_table.h>
-#include <interrupt_descriptor_table.h>
-#include <keyboard_manager.h>
-#include <memory_manager.h>
-#include <multiboot.h>
-#include <output.h>
-#include <pci.h>
+#include "kernel.h"
 
 static inline bool are_interrupts_enabled()
 {
