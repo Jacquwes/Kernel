@@ -97,6 +97,7 @@
     <ClCompile Include="kernel\src\interrupt_descriptor_table.cpp" />
     <ClCompile Include="kernel\src\kernel.cpp" />
     <ClCompile Include="kernel\src\keyboard_manager.cpp" />
+    <ClCompile Include="kernel\src\logger.cpp" />
     <ClCompile Include="kernel\src\memory_manager.cpp" />
     <ClCompile Include="kernel\src\output.cpp" />
     <ClCompile Include="kernel\src\pci.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="kernel\include\global_descriptor_table.h" />
     <ClInclude Include="kernel\include\interrupt_descriptor_table.h" />
     <ClInclude Include="kernel\include\kernel.h" />
+    <ClInclude Include="kernel\include\logger.h" />
     <ClInclude Include="kernel\include\memory_manager.h" />
     <ClInclude Include="kernel\include\multiboot.h" />
     <ClInclude Include="kernel\include\output.h" />
