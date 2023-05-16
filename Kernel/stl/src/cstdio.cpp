@@ -31,6 +31,14 @@ namespace std
 
 			switch (*(++c))
 			{
+			case '*':
+			{
+				uint16_t color = __builtin_va_arg(list, int);
+
+				kernel::output::instance->set_color({ (kernel::vga_color)(color & 0xf), (kernel::vga_color)(color >> 8) });
+				
+				break;
+			}
 			case 's':
 			{
 				char* string = (char*)__builtin_va_arg(list, int);
