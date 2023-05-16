@@ -11,11 +11,11 @@ namespace kernel
 	{
 		instance = this;
 
-		logger::log(debug, "PCI manager > Initializing.");
+		logger::log(info, "PCI manager > Initializing.");
 
 		enumerate_buses();
 
-		logger::log(debug, "PCI manager > Initialized. Found %d devices.", pci_device_count);
+		logger::log(info, "PCI manager > Initialized. Found %d devices.", pci_device_count);
 	}
 
 	uint16_t pci_manager::read(uint32_t bus, uint32_t device, uint32_t function, uint8_t offset)
@@ -171,6 +171,8 @@ namespace kernel
 		device.header.device_id = get_device_id(bus, _device, function);
 		device.header.command = get_command(bus, _device, function);
 		device.header.status = get_status(bus, _device, function);
+
+		logger::log(debug, "PCI device found > %d.%d.%d > cc: %x, s: %x, if: %x", bus, _device, function, class_code, subclass, programming_interface);
 
 		pci_devices[pci_device_count++] = pci_device();
 

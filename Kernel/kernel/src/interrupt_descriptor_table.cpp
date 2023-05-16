@@ -31,7 +31,7 @@ namespace kernel
 
 	interrupt_descriptor_table::interrupt_descriptor_table()
 	{
-		logger::log(debug, "Interrupt descriptor table > Initializing.");
+		logger::log(info, "Interrupt descriptor table > Initializing.");
 
 		pic::init();
 
@@ -63,6 +63,6 @@ namespace kernel
 		pic::unmask(1);
 		pic::unmask(pic::PIC_EOI);
 
-		logger::log(debug, "Interrupt descriptor table > Initialized.");
+		logger::log(info, "Interrupt descriptor table > Initialized.");
 	}
 }

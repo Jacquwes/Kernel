@@ -12,7 +12,7 @@ namespace kernel
 	output::output()
 	{
 		instance = this;
-		logger::log(debug, "Output > Initialized.");
+		logger::log(info, "Output > Initialized.");
 	}
 
 	void output::move_cursor(uint8_t const& x, uint8_t const& y)

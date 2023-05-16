@@ -8,7 +8,7 @@ namespace kernel
 
 	memory_manager::memory_manager(multiboot_info_t* info, uint32_t const& magic)
 	{
-		logger::log(debug, "Memory manager > Initializing.");
+		logger::log(kernel::info, "Memory manager > Initializing.");
 
 		instance = this;
 
@@ -31,6 +31,8 @@ namespace kernel
 		for (std::size_t i = 0; i < info->mmap_length; i += sizeof(multiboot_memory_map_t))
 		{
 			auto map_entry = reinterpret_cast<multiboot_memory_map_t*>(info->mmap_addr + i);
+
+			logger::log(kernel::debug, "Memory manager > Memory map entry > Address: %x, Length: %x, Type: %x", map_entry->addr, map_entry->len, map_entry->type);
 
 			if (map_entry->type != MULTIBOOT_MEMORY_AVAILABLE)
 				continue;
@@ -60,7 +62,7 @@ namespace kernel
 			last_page->next = nullptr;
 		}
 
-		logger::log(debug, "Memory manager > Initialized.");
+		logger::log(kernel::info, "Memory manager > Initialized.");
 	}
 
 	memory_manager::~memory_manager()

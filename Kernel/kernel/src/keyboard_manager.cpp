@@ -11,7 +11,7 @@ namespace kernel
 	{
 		instance = this;
 
-		logger::log(debug, "Keyboard manager > Initialized.");
+		logger::log(info, "Keyboard manager > Initialized.");
 	}
 
 	void keyboard_manager::handle_scancode(keyboard_scancodes::keyboard_scancode const& scancode)

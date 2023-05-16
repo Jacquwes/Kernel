@@ -8,15 +8,19 @@ namespace kernel
 
 	global_descriptor_table::global_descriptor_table()
 	{
-		logger::log(debug, "Global descriptor table > Initializing.");
+		logger::log(info, "Global descriptor table > Initializing.");
 		__asm__ volatile("cli");
 
 		instance = this;
 
 		null_descriptor() = segment_descriptor();
 
+		logger::log(debug, "Global descriptor table > Null descriptor > Flags: %x, Access byte: %x", null_descriptor().flags, null_descriptor().access_byte);
+
 		// receiving irq0 causes a general protection fault if this is not present
 		descriptors[1] = segment_descriptor();
+
+		logger::log(debug, "Global descriptor table > Reserved descriptor > Flags: %x, Access byte: %x", descriptors[1].flags, descriptors[1].access_byte);
 
 		using namespace access_byte;
 		using namespace flags;
@@ -27,6 +31,8 @@ namespace kernel
 											   direction_conforming::non_conforming, readable_writable::readable);
 
 			kernel_code_descriptor() = segment_descriptor(0, 0xfffff, access, flags);
+
+			logger::log(debug, "Global descriptor table > Kernel code descriptor > Flags: %x, Access byte: %x", flags, access);
 		}
 
 		{
@@ -35,6 +41,8 @@ namespace kernel
 											   direction_conforming::non_conforming, readable_writable::writable);
 
 			kernel_data_descriptor() = segment_descriptor(0, 0xfffff, access, flags);
+
+			logger::log(debug, "Global descriptor table > Kernel data descriptor > Flags: %x, Access byte: %x", flags, access);
 		}
 
 		{
@@ -52,6 +60,8 @@ namespace kernel
 			tss.fs = 0x10;
 			tss.gs = 0x10;
 			tss.cs = 0x08;
+
+			logger::log(debug, "Global descriptor table > Task state descriptor > Flags: %x, Access byte: %x", flags, access);
 		}
 
 		global_descriptor_table_register gdtr;
@@ -60,7 +70,7 @@ namespace kernel
 
 		asm volatile("lgdt %0" : : "m" (gdtr));
 
-		logger::log(debug, "Global descriptor table > Initialized.");
+		logger::log(info, "Global descriptor table > Initialized.");
 	}
 
 	segment_descriptor::segment_descriptor()
