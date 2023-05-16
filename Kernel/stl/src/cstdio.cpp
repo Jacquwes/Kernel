@@ -31,6 +31,12 @@ namespace std
 
 			switch (*(++c))
 			{
+			case '%':
+			{
+				kernel::output::instance->putchar('%');
+				printed++;
+				break;
+			}
 			case '*':
 			{
 				uint16_t color = __builtin_va_arg(list, int);
@@ -54,11 +60,11 @@ namespace std
 			case 'c':
 			{
 				uint8_t value = __builtin_va_arg(list, int);
-				
+
 				kernel::output::instance->putchar(value);
 
 				printed++;
-				
+
 				break;
 			}
 			case'x':
