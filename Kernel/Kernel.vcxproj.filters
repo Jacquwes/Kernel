@@ -226,5 +226,8 @@
     <ClInclude Include="kernel\include\logger.h">
       <Filter>kernel\include</Filter>
     </ClInclude>
+    <ClInclude Include="include\error_codes.h">
+      <Filter>kernel\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
