@@ -1,7 +1,7 @@
+#include "logger.h"
 #include "pci.h"
 #include "pic.h"
 
-#include <cstdio>
 
 namespace kernel
 {
@@ -11,11 +11,11 @@ namespace kernel
 	{
 		instance = this;
 
-		std::printf("PCI manager > Initializing.\n");
+		logger::log(debug, "PCI manager > Initializing.");
 
 		enumerate_buses();
 
-		std::printf("PCI manager > Initialized. Found %d devices.\n", pci_device_count);
+		logger::log(debug, "PCI manager > Initialized. Found %d devices.", pci_device_count);
 	}
 
 	uint16_t pci_manager::read(uint32_t bus, uint32_t device, uint32_t function, uint8_t offset)

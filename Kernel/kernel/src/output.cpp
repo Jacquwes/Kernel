@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <cstring>
 
-#include <output.h>
+#include <logger.h>
 #include <pic.h>
 
 namespace kernel
@@ -12,7 +12,7 @@ namespace kernel
 	output::output()
 	{
 		instance = this;
-		std::printf("Output > Initialized.\n");
+		logger::log(debug, "Output > Initialized.");
 	}
 
 	void output::move_cursor(uint8_t const& x, uint8_t const& y)

@@ -1,5 +1,5 @@
 #include "global_descriptor_table.h"
-#include <cstdio>
+#include "logger.h"
 #include <cstring>
 
 namespace kernel
@@ -8,7 +8,7 @@ namespace kernel
 
 	global_descriptor_table::global_descriptor_table()
 	{
-		std::printf("Global descriptor table > Initializing.\n");
+		logger::log(debug, "Global descriptor table > Initializing.");
 		__asm__ volatile("cli");
 
 		instance = this;
@@ -60,7 +60,7 @@ namespace kernel
 
 		asm volatile("lgdt %0" : : "m" (gdtr));
 
-		std::printf("Global descriptor table > Initialized.\n");
+		logger::log(debug, "Global descriptor table > Initialized.");
 	}
 
 	segment_descriptor::segment_descriptor()

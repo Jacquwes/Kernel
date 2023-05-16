@@ -48,7 +48,7 @@ namespace kernel
 		}
 		case log_canal::debug:
 		{
-			output::instance->set_color({ vga_color::black, vga_color::blue });
+			output::instance->set_color({ vga_color::black, vga_color::light_blue });
 			break;
 
 		}
@@ -82,7 +82,7 @@ namespace kernel
 		}
 		case log_canal::debug:
 		{
-			output::instance->set_color({ vga_color::blue, vga_color::black });
+			output::instance->set_color({ vga_color::light_blue, vga_color::black });
 			break;
 		}
 		case log_canal::success:
@@ -97,6 +97,8 @@ namespace kernel
 		output::instance->putchar(' ');
 		std::vprintf(format, args);
 		output::instance->putchar('\n');
+
+		output::instance->set_color({ vga_color::gray, vga_color::black });
 	}
 
 	void logger::set_canals(uint8_t canals_)
