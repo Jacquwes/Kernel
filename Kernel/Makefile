@@ -72,7 +72,7 @@ build: setup link
 	rm -rf bin obj
 
 start: build
-	qemu-system-i386 -cdrom build/os.iso -s  -drive format=raw,file=./build/disk.img,media=disk,index=0
+	qemu-system-i386 -cdrom build/os.iso -s  -drive format=raw,file=./build/disk.img,media=disk,if=none,id=disk -device ahci,id=ahci -device ide-hd,drive=disk,bus=ahci.0
 
 clean:
 	rm -rf build
