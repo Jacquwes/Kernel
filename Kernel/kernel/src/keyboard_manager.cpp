@@ -1,7 +1,7 @@
 #include "keyboard_manager.h"
 
 #include "output.h"
-#include <cstdio>
+#include "logger.h"
 
 namespace kernel
 {
@@ -11,7 +11,7 @@ namespace kernel
 	{
 		instance = this;
 
-		std::printf("Keyboard manager > Initialized.\n");
+		logger::log(debug, "Keyboard manager > Initialized.");
 	}
 
 	void keyboard_manager::handle_scancode(keyboard_scancodes::keyboard_scancode const& scancode)
@@ -258,7 +258,7 @@ namespace kernel
 			break;
 
 		default:
-			std::printf("Keyboard manager > Unhandled scancode: %x\n", static_cast<uint8_t>(scancode));
+			logger::log(error, "Keyboard manager > Unhandled scancode: %x", static_cast<uint8_t>(scancode));
 			break;
 		}
 	}

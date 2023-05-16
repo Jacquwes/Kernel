@@ -191,6 +191,9 @@
     <ClCompile Include="kernel\src\pci.cpp">
       <Filter>kernel\src\hardware</Filter>
     </ClCompile>
+    <ClCompile Include="kernel\src\logger.cpp">
+      <Filter>kernel\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="kernel\include\multiboot.h">
@@ -219,6 +222,12 @@
     </ClInclude>
     <ClInclude Include="kernel\include\pci.h">
       <Filter>kernel\include\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="kernel\include\logger.h">
+      <Filter>kernel\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\error_codes.h">
+      <Filter>kernel\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

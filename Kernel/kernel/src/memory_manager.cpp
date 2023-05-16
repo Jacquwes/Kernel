@@ -1,5 +1,4 @@
-#include <cstdio>
-
+#include "logger.h"
 #include "kernel.h"
 #include "memory_manager.h"
 
@@ -9,20 +8,20 @@ namespace kernel
 
 	memory_manager::memory_manager(multiboot_info_t* info, uint32_t const& magic)
 	{
-		std::printf("Memory manager > Initializing.\n");
+		logger::log(debug, "Memory manager > Initializing.");
 
 		instance = this;
 
 		if (magic != MULTIBOOT_BOOTLOADER_MAGIC)
 		{
-			std::printf("Memory manager > Error during initialization: incorrect magic number.\n");
+			logger::log(error, "Memory manager > Error during initialization: incorrect magic number.");
 			ec = INVALID_MULTIBOOT_MAGIC;
 			return;
 		}
 
 		if (!(info->flags >> 6 & 1))
 		{
-			std::printf("Memory manager > Error during initialization: invalid multiboot flags.\n");
+			logger::log(error, "Memory manager > Error during initialization: invalid multiboot flags.");
 			ec = INVALID_MULTIBOOT_FLAGS;
 			return;
 		}
@@ -61,7 +60,7 @@ namespace kernel
 			last_page->next = nullptr;
 		}
 
-		std::printf("Memory manager > Initialized.\n");
+		logger::log(debug, "Memory manager > Initialized.");
 	}
 
 	memory_manager::~memory_manager()
@@ -71,10 +70,10 @@ namespace kernel
 
 	void memory_manager::display_pages() const
 	{
-		std::printf("Memory manager > Pages:\n");
+		logger::log(info, "Memory manager > Pages:");
 		for (memory_page* i = first_page; i; i = i->next)
 		{
-			std::printf("        %x : length: %x, next: %x, previous: %x, %s\n", i, i->length, i->next, i->previous, i->allocated ? "allocated" : "");
+			logger::log(info, "        %x : length: %x, next: %x, previous: %x, %s", i, i->length, i->next, i->previous, i->allocated ? "allocated" : "");
 		}
 	}
 
@@ -120,7 +119,7 @@ namespace kernel
 
 		if (!i)
 		{
-			std::printf("Memory manager > Trying to deallocate unallocated memory at %x.\n", ptr);
+			logger::log(error, "Memory manager > Trying to deallocate unallocated memory at %x.", ptr);
 			return;
 		}
 

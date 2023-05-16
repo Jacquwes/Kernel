@@ -1,8 +1,8 @@
-#include <cstdio>
 #include <cstring>
 
-#include "interrupt_descriptor_table.h"
 #include "global_descriptor_table.h"
+#include "interrupt_descriptor_table.h"
+#include "logger.h"
 #include "pic.h"
 
 extern void* isr_stub_table[];
@@ -31,7 +31,7 @@ namespace kernel
 
 	interrupt_descriptor_table::interrupt_descriptor_table()
 	{
-		std::printf("Interrupt descriptor table > Initializing.\n");
+		logger::log(debug, "Interrupt descriptor table > Initializing.");
 
 		pic::init();
 
@@ -63,6 +63,6 @@ namespace kernel
 		pic::unmask(1);
 		pic::unmask(pic::PIC_EOI);
 
-		std::printf("Interrupt descriptor table > Initialized.\n");
+		logger::log(debug, "Interrupt descriptor table > Initialized.");
 	}
 }

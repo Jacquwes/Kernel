@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <kernel.h>
+#include <error_codes.h>
 #include <multiboot.h>
 
 namespace kernel

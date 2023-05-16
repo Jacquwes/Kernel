@@ -1,17 +1,18 @@
 #include <cstdio>
 #include <cstring>
 
-#include <output.h>
+#include <logger.h>
 #include <pic.h>
 
 namespace kernel
 {
 	output* output::instance = nullptr;
+	vga_colorset output::colorset = { vga_color::gray, vga_color::black };
 
 	output::output()
 	{
 		instance = this;
-		std::printf("Output > Initialized.\n");
+		logger::log(debug, "Output > Initialized.");
 	}
 
 	void output::move_cursor(uint8_t const& x, uint8_t const& y)
@@ -28,75 +29,80 @@ namespace kernel
 	{
 		if (c == '\n')
 		{
-			cursorX = 0;
-			cursorY++;
+			cursor_x = 0;
+			cursor_y++;
 
-			move_cursor(cursorX, cursorY);
+			move_cursor(cursor_x, cursor_y);
 
 			return;
 		}
 
 		if (c == '\b')
 		{
-			if (cursorX == 0)
+			if (cursor_x == 0)
 			{
-				cursorX = VGA_WIDTH - 1;
-				cursorY--;
+				cursor_x = VGA_WIDTH - 1;
+				cursor_y--;
 			}
 			else
-				cursorX--;
+				cursor_x--;
 
-			VGA_ADDRESS[(cursorY * VGA_WIDTH) + cursorX] = ' ' | (7 << 8);
+			VGA_ADDRESS[(cursor_y * VGA_WIDTH) + cursor_x] = ' ' | (7 << 8);
 
-			move_cursor(cursorX, cursorY);
+			move_cursor(cursor_x, cursor_y);
 
 			return;
 		}
 
 		if (c == '\t')
 		{
-			cursorX += (cursorX % 4) == 0 ? 4 : cursorX % 4;
+			cursor_x += (cursor_x % 4) == 0 ? 4 : cursor_x % 4;
 
-			if (cursorX >= VGA_WIDTH)
+			if (cursor_x >= VGA_WIDTH)
 			{
-				cursorX = 0;
-				cursorY++;
+				cursor_x = 0;
+				cursor_y++;
 			}
 
-			move_cursor(cursorX, cursorY);
+			move_cursor(cursor_x, cursor_y);
 
 			return;
 		}
 
-		VGA_ADDRESS[(cursorY * VGA_WIDTH) + cursorX] = c | (7 << 8);
+		VGA_ADDRESS[(cursor_y * VGA_WIDTH) + cursor_x] = c | (colorset.foreground << 8) | (colorset.background << 12);
 
-		cursorX++;
+		cursor_x++;
 
-		if (cursorX >= VGA_WIDTH)
+		if (cursor_x >= VGA_WIDTH)
 		{
-			cursorX = 0;
-			cursorY++;
+			cursor_x = 0;
+			cursor_y++;
 		}
 
-		if (cursorY >= VGA_HEIGHT)
+		if (cursor_y >= VGA_HEIGHT)
 			scroll();
 		else
-			move_cursor(cursorX, cursorY);
+			move_cursor(cursor_x, cursor_y);
 	}
 
 	void output::scroll(uint8_t const& lines)
 	{
 		std::memcpy(VGA_ADDRESS, VGA_ADDRESS + VGA_WIDTH, VGA_WIDTH * (VGA_HEIGHT - 1));
 
-		cursorX = 0;
-		cursorY -= lines;
+		cursor_x = 0;
+		cursor_y -= lines;
 
-		if (cursorY < 0)
-			cursorY = 0;
+		if (cursor_y < 0)
+			cursor_y = 0;
 
 		for (uint8_t i = 0; i < lines; i++)
 			VGA_ADDRESS[(VGA_HEIGHT - 1) * VGA_WIDTH + i] = ' ' | (7 << 8);
 
-		move_cursor(cursorX, cursorY);
+		move_cursor(cursor_x, cursor_y);
+	}
+
+	void output::set_color(vga_colorset const& colorset_)
+	{
+		colorset = colorset_;
 	}
 }
