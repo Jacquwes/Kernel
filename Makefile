@@ -4,7 +4,7 @@ i686-elf-as		= $(i686-elf)-as
 
 prefix			= /home/saucisse/projects/Kernel
 
-cpp_flags		= -Iinclude -Istl/include -Ikernel/include -g -ffreestanding -Wall -Wextra -fno-exceptions -fno-rtti -c -std=c++20
+cpp_flags		=  Istl/include -Ikernel/include -g -ffreestanding -Wall -Wextra -fno-exceptions -fno-rtti -c -std=c++20
 ld_flags		= -ffreestanding -nostdlib -lgcc -g
 
 stl_sources		= $(wildcard stl/src/*.cpp)
