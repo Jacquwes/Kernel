@@ -41,7 +41,7 @@ namespace std
 	template <typename InputIt, typename Distance>
 	constexpr void advance(InputIt& it, Distance n)
 	{
-		auto cat = typename iterator_traits<InputIt>::iterator_category;
+		using cat = typename iterator_traits<InputIt>::iterator_category;
 		static_assert(is_base_of_v<input_iterator_tag, cat>, "iterator category must be input_iterator_tag or stronger");
 
 		auto dist = typename iterator_traits<InputIt>::difference_type(n);
@@ -88,12 +88,12 @@ namespace std
 		constexpr explicit reverse_iterator(iterator_type iter) : _iter(iter) {}
 		template <typename U> constexpr reverse_iterator(const reverse_iterator<U>& other) : _iter(other.base()) {}
 
-		template <typename U> constexpr reverse_iterator& operator=(reverse_iterator<U> const& other ) { _iter = other.base(); return *this; }
+		template <typename U> constexpr reverse_iterator& operator=(reverse_iterator<U> const& other) { _iter = other.base(); return *this; }
 
 		constexpr iterator_type base() const { return _iter; }
 
 		constexpr reference operator*() const { Iter tmp = _iter; return *--tmp; }
-		constexpr pointer operator->() const 
+		constexpr pointer operator->() const
 			requires (is_pointer_v<Iter> || requires (const Iter i) { i.operator->(); })
 		{
 			if constexpr (is_pointer_v<Iter>)
@@ -104,5 +104,5 @@ namespace std
 
 	private:
 		iterator_type _iter{};
-	}
+	};
 }
