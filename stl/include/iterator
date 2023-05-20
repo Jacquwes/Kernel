@@ -44,5 +44,33 @@ namespace std
 		auto cat = typename iterator_traits<InputIt>::iterator_category;
 		static_assert(is_base_of_v<input_iterator_tag, cat>, "iterator category must be input_iterator_tag or stronger");
 
+		auto dist = typename iterator_traits<InputIt>::difference_type(n);
+
+		if constexpr (is_base_of_v<random_access_iterator_tag, cat>)
+			it += dist;
+		else
+		{
+			while (dist > 0)
+			{
+				--dist;
+				++it;
+			}
+			if constexpr (is_base_of_v<bidirectional_iterator_tag, cat>)
+			{
+				while (dist > 0)
+				{
+					++dist;
+					--it;
+				}
+			}
+		}
+	}
+
+	template <typename BidirIt>
+	constexpr BidirIt prev(BidirIt it, typename iterator_traits<BidirIt>::difference_type n = 1)
+	{
+		advance(it, -n);
+		return it;
+	}
 
 }
