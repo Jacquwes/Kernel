@@ -37,4 +37,12 @@ namespace std
 	private:
 		iterator_type _iter;
 	};
+
+	template <typename InputIt, typename Distance>
+	constexpr void advance(InputIt& it, Distance n)
+	{
+		auto cat = typename iterator_traits<InputIt>::iterator_category;
+		static_assert(is_base_of_v<input_iterator_tag, cat>, "iterator category must be input_iterator_tag or stronger");
+
+
 }
