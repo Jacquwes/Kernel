@@ -99,7 +99,7 @@ namespace std
 			if constexpr (is_pointer_v<Iter>)
 				return _iter - 1;
 			else
-
+				return prev(_iter).operator->();
 		}
 
 	private:
