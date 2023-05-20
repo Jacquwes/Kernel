@@ -4,6 +4,14 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 build
+CMakeFiles
+CMakeSettings.json
+CMakeCache.txt
+cmake_install.cmake
+rules.ninja
+build.ninja
+iso
+package-lock.json
 
 # User-specific files
 *.rsuser
