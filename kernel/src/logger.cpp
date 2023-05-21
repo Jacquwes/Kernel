@@ -31,74 +31,24 @@ namespace kernel
 
 		switch (canal)
 		{
-		case log_canal::error:
-		{
-			output::instance->set_color({ vga_color::black, vga_color::red });
+		case error:
+			std::fprintf(stdserial, "[ERROR]   | ");
 			break;
-		}
-		case log_canal::warning:
-		{
-			output::instance->set_color({ vga_color::black, vga_color::yellow });
+		case warning:
+			std::fprintf(stdserial, "[WARNING] | ");
 			break;
-		}
-		case log_canal::info:
-		{
-			output::instance->set_color({ vga_color::black, vga_color::gray });
+		case info:
+			std::fprintf(stdserial, "[INFO]    | ");
 			break;
-		}
-		case log_canal::debug:
-		{
-			output::instance->set_color({ vga_color::black, vga_color::light_blue });
+		case debug:
+			std::fprintf(stdserial, "[DEBUG]   | ");
 			break;
-
-		}
-		case log_canal::success:
-		{
-			output::instance->set_color({ vga_color::black, vga_color::green });
-			break;
-		}
 		default:
 			break;
 		}
 
-		output::instance->putchar(' ');
-
-		switch (canal)
-		{
-		case log_canal::error:
-		{
-			output::instance->set_color({ vga_color::red, vga_color::black });
-			break;
-		}
-		case log_canal::warning:
-		{
-			output::instance->set_color({ vga_color::yellow, vga_color::black });
-			break;
-		}
-		case log_canal::info:
-		{
-			output::instance->set_color({ vga_color::gray, vga_color::black });
-			break;
-		}
-		case log_canal::debug:
-		{
-			output::instance->set_color({ vga_color::light_blue, vga_color::black });
-			break;
-		}
-		case log_canal::success:
-		{
-			output::instance->set_color({ vga_color::green, vga_color::black });
-			break;
-		}
-		default:
-			break;
-		}
-
-		output::instance->putchar(' ');
-		std::vprintf(format, args);
-		output::instance->putchar('\n');
-
-		output::instance->set_color({ vga_color::gray, vga_color::black });
+		std::vfprintf(stdserial, format, args);
+		std::fprintf(stdserial, "\n");
 	}
 
 	void logger::set_canals(uint8_t canals_)
