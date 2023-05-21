@@ -25,6 +25,6 @@ add_custom_target(
 
 add_custom_target(
 	run
-	COMMAND qemu-system-x86_64 -cdrom ${CMAKE_CURRENT_BINARY_DIR}/os.iso ${QEMU_FLAGS}
+	COMMAND qemu-system-i386 -cdrom ${CMAKE_CURRENT_BINARY_DIR}/os.iso ${QEMU_FLAGS}
 	DEPENDS iso
 )
