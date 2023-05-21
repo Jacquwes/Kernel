@@ -4,6 +4,18 @@ constexpr int EOF = -1;
 
 namespace std
 {
+	typedef struct io_buffer
+	{
+		void* placeholder;
+	} FILE;
+
 	int printf(const char* format, ...);
 	int vprintf(const char* format, __builtin_va_list list);
+	int fprintf(FILE* stream, const char* format, ...);
+	int vfprintf(FILE* stream, const char* format, __builtin_va_list list);
 }
+
+inline std::FILE* stdin = (std::FILE*)0;
+inline std::FILE* stdout = (std::FILE*)1;
+inline std::FILE* stderr = (std::FILE*)2;
+inline std::FILE* stdserial = (std::FILE*)3;

@@ -6,16 +6,16 @@
 
 namespace kernel
 {
-	output* output::instance = nullptr;
-	vga_colorset output::colorset = { vga_color::gray, vga_color::black };
+	vga_output* vga_output::instance = nullptr;
+	vga_colorset vga_output::colorset = { vga_color::gray, vga_color::black };
 
-	output::output()
+	vga_output::vga_output()
 	{
 		instance = this;
 		logger::log(info, "Output > Initialized.");
 	}
 
-	void output::move_cursor(uint8_t const& x, uint8_t const& y)
+	void vga_output::move_cursor(uint8_t const& x, uint8_t const& y)
 	{
 		uint16_t pos = y * VGA_WIDTH + x;
 
@@ -25,7 +25,7 @@ namespace kernel
 		pic::outb(0x3d5, (pos >> 8) & 0xff);
 	}
 
-	void output::putchar(char const& c)
+	void vga_output::putchar(char const& c)
 	{
 		if (c == '\n')
 		{
@@ -85,13 +85,11 @@ namespace kernel
 			move_cursor(cursor_x, cursor_y);
 	}
 
-	void output::scroll()
+	void vga_output::scroll()
 	{
 		wchar_t screen_copy[VGA_WIDTH * VGA_HEIGHT] = { ' ' | 7 << 8 };
 		std::memcpy(screen_copy, VGA_ADDRESS + VGA_WIDTH, VGA_WIDTH * (VGA_HEIGHT - 1) * sizeof(wchar_t));
 		std::memcpy(VGA_ADDRESS, screen_copy, VGA_WIDTH * VGA_HEIGHT * sizeof(wchar_t));
-
-		delete screen_copy;
 
 		cursor_y--;
 		cursor_x = 0;
@@ -99,7 +97,7 @@ namespace kernel
 		move_cursor(cursor_x, cursor_y);
 	}
 
-	void output::set_color(vga_colorset const& colorset_)
+	void vga_output::set_color(vga_colorset const& colorset_)
 	{
 		colorset = colorset_;
 	}

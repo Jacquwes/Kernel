@@ -12,4 +12,4 @@ iso:
 	grub-mkrescue -o $(build_dir)/os.iso $(build_dir)/iso
 
 run: iso
-	qemu-system-i386 -cdrom $(build_dir)/os.iso -s -drive format=raw,file=$(build_dir)/disk.img,media=disk,if=none,id=disk -device ahci,id=ahci -device ide-hd,drive=disk,bus=ahci.0
+	qemu-system-i386 -cdrom $(build_dir)/os.iso -s -drive format=raw,file=$(build_dir)/disk.img,media=disk,if=none,id=disk -device ahci,id=ahci -device ide-hd,drive=disk,bus=ahci.0 -serial stdio

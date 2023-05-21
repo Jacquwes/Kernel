@@ -4,6 +4,18 @@
 
 #include <output.h>
 
+#define print(c, stream)\
+	if (stream == stdout)\
+		kernel::vga_output::instance->putchar(c);\
+	else if (stream == stderr)\
+	{\
+		kernel::vga_output::instance->set_color({ kernel::vga_color::red, kernel::vga_color::black });\
+		kernel::vga_output::instance->putchar(c);\
+		kernel::vga_output::instance->set_color({ kernel::vga_color::gray, kernel::vga_color::black });\
+	}\
+	else if (stream == stdserial)\
+		kernel::serial_output::instance->putchar(c);\
+
 namespace std
 {
 	int printf(const char* format, ...)
@@ -16,7 +28,22 @@ namespace std
 		return result;
 	}
 
+	int fprintf(FILE* stream, const char* format, ...)
+	{
+		__builtin_va_list list;
+		__builtin_va_start(list, format);
+		int result = vfprintf(stream, format, list);
+		__builtin_va_end(list);
+
+		return result;
+	}
+
 	int vprintf(const char* format, __builtin_va_list list)
+	{
+		return vfprintf(stdout, format, list);
+	}
+
+	int vfprintf(FILE* stream, const char* format, __builtin_va_list list)
 	{
 		int printed = 0;
 
@@ -24,7 +51,7 @@ namespace std
 		{
 			if (*c != '%')
 			{
-				kernel::output::instance->putchar(*c);
+				print(*c, stream);
 				printed++;
 				continue;
 			}
@@ -33,7 +60,7 @@ namespace std
 			{
 			case '%':
 			{
-				kernel::output::instance->putchar('%');
+				print('%', stream);
 				printed++;
 				break;
 			}
@@ -41,8 +68,8 @@ namespace std
 			{
 				uint16_t color = __builtin_va_arg(list, int);
 
-				kernel::output::instance->set_color({ (kernel::vga_color)(color & 0xf), (kernel::vga_color)(color >> 8) });
-				
+				kernel::vga_output::instance->set_color({ (kernel::vga_color)(color & 0xf), (kernel::vga_color)(color >> 8) });
+
 				break;
 			}
 			case 's':
@@ -51,7 +78,7 @@ namespace std
 
 				for (size_t i = 0; string[i]; i++)
 				{
-					kernel::output::instance->putchar(string[i]);
+					print(string[i], stream);
 					printed++;
 				}
 
@@ -61,7 +88,7 @@ namespace std
 			{
 				uint8_t value = __builtin_va_arg(list, int);
 
-				kernel::output::instance->putchar(value);
+				print(value, stream);
 
 				printed++;
 
@@ -71,13 +98,13 @@ namespace std
 			{
 				uint32_t value = __builtin_va_arg(list, uint32_t);
 
-				kernel::output::instance->putchar('0');
-				kernel::output::instance->putchar('x');
+				print('0', stream);
+				print('x', stream);
 				printed += 2;
 
 				if (!value)
 				{
-					kernel::output::instance->putchar('0');
+					print('0', stream);
 					printed++;
 					break;
 				}
@@ -90,7 +117,7 @@ namespace std
 				for (size_t i = 0; i < size - 1; i++)
 				{
 					printed++;
-					kernel::output::instance->putchar(string[i]);
+					print(string[i], stream);
 				}
 
 				break;
@@ -101,14 +128,14 @@ namespace std
 
 				if (value < 0)
 				{
-					kernel::output::instance->putchar('-');
+					print('-', stream);
 					value = -value;
 					printed++;
 				}
 
 				if (!value)
 				{
-					kernel::output::instance->putchar('0');
+					print('0', stream);
 					printed++;
 					break;
 				}
@@ -120,7 +147,7 @@ namespace std
 
 				for (size_t i = 0; i < size - 1; i++)
 				{
-					kernel::output::instance->putchar(string[i]);
+					print(string[i], stream);
 					printed++;
 				}
 

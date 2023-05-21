@@ -34,12 +34,12 @@ namespace kernel
 		vga_color background;
 	};
 
-	class output
+	class vga_output
 	{
 	public:
-		output();
+		vga_output();
 
-		static output* instance;
+		static vga_output* instance;
 
 		void move_cursor(uint8_t const& x, uint8_t const& y);
 		void putchar(char const& c);
@@ -52,5 +52,18 @@ namespace kernel
 		uint8_t cursor_y = 0;
 
 		static vga_colorset colorset;
+	};
+
+	class serial_output
+	{
+	public:
+		serial_output();
+
+		static serial_output* instance;
+
+		void putchar(char const& c);
+
+	private:
+		static bool port_initialized;
 	};
 }

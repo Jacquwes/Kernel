@@ -13,8 +13,7 @@ namespace kernel
 		warning = 0b00000010,
 		info    = 0b00000100,
 		debug   = 0b00001000,
-		success = 0b00010000,
-		all     = 0b00011111
+		all     = 0b00001111
 	};
 
 	class logger
