@@ -54,10 +54,7 @@ namespace std
 		constexpr reference at(size_type pos)
 		{
 			if (pos >= size)
-			{
 				kernel::logger::log(kernel::error, "vector::at > %d is out of range.");
-				return 0;
-			}
 
 			return data[pos];
 		}
@@ -65,10 +62,7 @@ namespace std
 		constexpr const_reference at(size_type pos) const
 		{
 			if (pos >= size)
-			{
 				kernel::logger::log(kernel::error, "vector::at > %d is out of range.");
-				return 0;
-			}
 
 			return data[pos];
 		}
