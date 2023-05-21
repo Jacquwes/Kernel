@@ -50,7 +50,7 @@ target_include_directories(
 target_link_libraries(kernel stl)
 target_link_options(kernel PRIVATE -ffreestanding -nostdlib -lgcc -g)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffreestanding -Wall -Wextra -Wunknown-pragmas -fno-exceptions -fno-rtti -std=c++20")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffreestanding -Wall -Wextra -fno-exceptions -Wno-unknown-pragmas -fno-rtti -std=c++20")
 
 add_executable(
 	kernel.elf
