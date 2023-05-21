@@ -28,6 +28,15 @@ namespace kernel::pic
 
 	constexpr auto PIC_EOI = 0x20;
 
+	constexpr auto COM1 = 0x3F8;
+	constexpr auto COM2 = 0x2F8;
+	constexpr auto COM3 = 0x3E8;
+	constexpr auto COM4 = 0x2E8;
+	constexpr auto COM5 = 0x5F8;
+	constexpr auto COM6 = 0x4F8;
+	constexpr auto COM7 = 0x5E8;
+	constexpr auto COM8 = 0x4E8;
+
 	void init();
 	void mask(uint8_t irq);
 	void unmask(uint8_t irq);
