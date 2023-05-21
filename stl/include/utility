@@ -4,9 +4,15 @@
 
 namespace std
 {
-	template <typename T>
-	constexpr T&& forward(remove_reference<T>&& t) noexcept
-	{
-		return static_cast<T&&>(t);
-	}
+    template <class T>
+    constexpr T&& forward(typename std::remove_reference<T>::type&& t) noexcept
+    {
+        return static_cast<T&&>(t);
+    }
+
+    template <class T>
+    constexpr T&& forward(typename std::remove_reference<T>::type& t) noexcept
+    {
+        return static_cast<T&&>(t);
+    }
 }
