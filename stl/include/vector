@@ -1,7 +1,8 @@
 #pragma once
 
-#include <memory>
 #include <cstdint>
+#include <iterator>
+#include <memory>
 
 namespace std
 {
@@ -21,7 +22,37 @@ namespace std
 		typedef allocator_traits<allocator_type>::const_pointer const_pointer;
 		typedef pointer iterator;
 		typedef const_pointer const_iterator;
+		typedef std::reverse_iterator<iterator> reverse_iterator;
+		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
 #pragma endregion
+#pragma region Member functions
+
+		constexpr vector() noexcept(noexcept(Allocator())) : vector(Allocator()) {}
+		constexpr explicit vector(Allocator const& alloc) noexcept : vector(0, alloc) {}
+		constexpr vector(size_type count, T const& value, Allocator const& alloc = Allocator())	: vector(count, alloc)
+		{
+			for (size_type i = 0; i < count; ++i)
+				allocator_traits<Allocator>::construct(allocator, data + i, value);
+		}
+		constexpr explicit vector(size_type count, Allocator const& alloc = Allocator())
+		{
+			for (size_type i = 0; i < count; ++i)
+				allocator_traits<Allocator>::construct(allocator, data + i);
+		}
+
+		constexpr ~vector()
+		{
+			for (size_type i = 0; i < size; ++i)
+				allocator_traits<Allocator>::destroy(allocator, data + i);
+			allocator_traits<Allocator>::deallocate(allocator, data, size);
+		}
+
+#pragma endregion
+
+	private:
+		Allocator allocator;
+		size_type size;
+		pointer data;
 	};
 }
