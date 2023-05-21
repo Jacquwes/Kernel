@@ -9,6 +9,8 @@ namespace std
 		{
 			*(uint8_t*)(destination + i) = *(uint8_t*)(source + i);
 		}
+
+		return destination;
 	}
 
 	void* memset(void* destination, int value, size_t count)
@@ -17,5 +19,7 @@ namespace std
 		{
 			*(uint8_t*)(destination + i) = (uint8_t)value;
 		}
+
+		return destination;
 	}
 }
