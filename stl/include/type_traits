@@ -66,7 +66,7 @@ namespace std
 
 
 	template <typename T>
-	struct is_integral	: std::bool_constant<
+	struct is_integral : std::bool_constant<
 		is_same_v<typename remove_cv<T>::type, bool> ||
 		is_same_v<typename remove_cv<T>::type, char> ||
 		is_same_v<typename remove_cv<T>::type, signed char> ||
