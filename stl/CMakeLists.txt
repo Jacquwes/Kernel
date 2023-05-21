@@ -11,7 +11,7 @@ file(
 )
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -ffreestanding -Wall -Wextra -fno-exceptions -fno-rtti -std=c++20")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -ffreestanding -Wall -Wextra -fno-exceptions -nostdlib -Wno-unknown-pragmas -fno-rtti -std=c++20")
 
 add_library(stl ${SOURCES})
 

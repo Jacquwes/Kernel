@@ -1,0 +1,122 @@
+#pragma once
+
+#include <cstdint>
+#include <iterator>
+#include <logger.h>
+#include <memory>
+
+namespace std
+{
+	template <typename T, typename Allocator = allocator<T>>
+	class vector
+	{
+	public:
+#pragma region Member types
+
+		typedef T value_type;
+		typedef Allocator allocator_type;
+		typedef size_t size_type;
+		typedef ptrdiff_t difference_type;
+		typedef value_type& reference;
+		typedef const value_type& const_reference;
+		typedef allocator_traits<allocator_type>::pointer pointer;
+		typedef allocator_traits<allocator_type>::const_pointer const_pointer;
+		typedef pointer iterator;
+		typedef const_pointer const_iterator;
+		typedef std::reverse_iterator<iterator> reverse_iterator;
+		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+
+#pragma endregion
+#pragma region Member functions
+
+		constexpr vector() noexcept(noexcept(Allocator()))
+			: vector(Allocator()) {}
+		constexpr explicit vector(Allocator const& alloc) noexcept
+			: vector(0, alloc) {}
+		constexpr vector(size_type count, T const& value, Allocator const& alloc = Allocator())
+			: vector(count, alloc)
+		{
+			for (size_type i = 0; i < count; ++i)
+				allocator_traits<Allocator>::construct(allocator, data + i, value);
+		}
+		constexpr explicit vector(size_type count, Allocator const& alloc = Allocator())
+			: allocator(alloc),
+			size(count),
+			capacity(count),
+			data(allocator_traits<Allocator>::allocate(allocator, count))
+		{
+			for (size_type i = 0; i < count; ++i)
+				allocator_traits<Allocator>::construct(allocator, data + i);
+		}
+
+		constexpr ~vector()
+		{
+			for (size_type i = 0; i < size; ++i)
+				allocator_traits<Allocator>::destroy(allocator, data + i);
+			allocator_traits<Allocator>::deallocate(allocator, data, size);
+		}
+
+#pragma region Member access
+
+		constexpr reference at(size_type pos)
+		{
+			if (pos >= size)
+				kernel::logger::log(kernel::error, "vector::at > %d is out of range.");
+
+			return data[pos];
+		}
+
+		constexpr const_reference at(size_type pos) const
+		{
+			if (pos >= size)
+				kernel::logger::log(kernel::error, "vector::at > %d is out of range.");
+
+			return data[pos];
+		}
+
+#pragma endregion
+
+#pragma region Capacity
+
+		constexpr void reserve(size_type new_cap)
+		{
+			if (new_cap > capacity)
+			{
+				pointer new_data = allocator_traits<Allocator>::allocate(allocator, new_cap);
+
+				for (size_type i = 0; i < size; ++i)
+					allocator_traits<Allocator>::construct(allocator, new_data + i, data[i]);
+				for (size_type i = 0; i < size; ++i)
+					allocator_traits<Allocator>::destroy(allocator, data + i);
+
+				allocator_traits<Allocator>::deallocate(allocator, data, size);
+
+				data = new_data;
+				capacity = new_cap;
+			}
+		}
+
+#pragma endregion
+
+#pragma region Modifiers
+
+		constexpr void push_back(T const& value)
+		{
+			if (size == capacity)
+				reserve(size + 1);
+
+			allocator_traits<Allocator>::construct(allocator, data + size, value);
+			++size;
+		}
+
+#pragma endregion
+
+#pragma endregion
+
+	private:
+		Allocator allocator;
+		size_type size;
+		size_type capacity;
+		pointer data;
+	};
+}

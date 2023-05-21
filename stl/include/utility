@@ -4,8 +4,15 @@
 
 namespace std
 {
-	template <typename T>
-	typename add_rvalue_reference<T>::type declval() noexcept
-	{
-	}
+    template <class T>
+    constexpr T&& forward(typename std::remove_reference<T>::type&& t) noexcept
+    {
+        return static_cast<T&&>(t);
+    }
+
+    template <class T>
+    constexpr T&& forward(typename std::remove_reference<T>::type& t) noexcept
+    {
+        return static_cast<T&&>(t);
+    }
 }
