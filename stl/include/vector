@@ -29,14 +29,21 @@ namespace std
 #pragma endregion
 #pragma region Member functions
 
-		constexpr vector() noexcept(noexcept(Allocator())) : vector(Allocator()) {}
-		constexpr explicit vector(Allocator const& alloc) noexcept : vector(0, alloc) {}
-		constexpr vector(size_type count, T const& value, Allocator const& alloc = Allocator()) : vector(count, alloc)
+		constexpr vector() noexcept(noexcept(Allocator()))
+			: vector(Allocator()) {}
+		constexpr explicit vector(Allocator const& alloc) noexcept
+			: vector(0, alloc) {}
+		constexpr vector(size_type count, T const& value, Allocator const& alloc = Allocator())
+			: vector(count, alloc)
 		{
 			for (size_type i = 0; i < count; ++i)
 				allocator_traits<Allocator>::construct(allocator, data + i, value);
 		}
 		constexpr explicit vector(size_type count, Allocator const& alloc = Allocator())
+			: allocator(alloc),
+			size(count),
+			capacity(count),
+			data(allocator_traits<Allocator>::allocate(allocator, count))
 		{
 			for (size_type i = 0; i < count; ++i)
 				allocator_traits<Allocator>::construct(allocator, data + i);
