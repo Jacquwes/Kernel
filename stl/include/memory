@@ -121,14 +121,24 @@ namespace std
 			return a;
 		}
 
+		[[nodiscard]] static constexpr pointer allocate(Allocator& a, size_type n)
+		{
+			return a.allocate(n);
+		}
+
+		[[nodiscard]] static constexpr pointer allocate(Allocator& a, size_type n, const_void_pointer hint)
+		{
+			return a.allocate(n);
+		}
+
 		template <typename T, class... Args>
-		static constexpr void construct(Allocator& a, T* p, Args&&... args)
+		static constexpr void construct(Allocator&, T* p, Args&&... args)
 		{
 			std::construct_at(p, std::forward<Args>(args)...);
 		}
 
 		template <typename T>
-		static constexpr void destroy(Allocator& a, T* p)
+		static constexpr void destroy(Allocator&, T* p)
 		{
 			std::destroy_at(p);
 		}
