@@ -7,7 +7,7 @@ add_subdirectory(stl)
 
 set(
 	QEMU_FLAGS
-	-s -drive format=raw,file=${CMAKE_CURRENT_BINARY_DIR}/disk.img,media=disk,if=none,id=disk -device ahci,id=ahci -device ide-drive,drive=disk,bus=ahci.0
+	-s -drive format=raw,file=${CMAKE_CURRENT_BINARY_DIR}/disk.img,media=disk,if=none,id=disk -device ahci,id=ahci -device ide-hd,drive=disk,bus=ahci.0
 )
 
 add_custom_target(
@@ -26,5 +26,5 @@ add_custom_target(
 add_custom_target(
 	run
 	COMMAND qemu-system-x86_64 -cdrom ${CMAKE_CURRENT_BINARY_DIR}/os.iso ${QEMU_FLAGS}
-	DEPENDS disk iso
+	DEPENDS iso
 )
