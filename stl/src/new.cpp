@@ -50,6 +50,28 @@ void* operator new[](std::size_t count)
 	return ptr;
 }
 
+void* operator new(std::size_t count, std::align_val_t)
+{
+	void* ptr = kernel::memory_manager::instance->allocate(count);
+	return ptr;
+}
+
+void* operator new[](std::size_t count, std::align_val_t)
+{
+	void* ptr = kernel::memory_manager::instance->allocate(count);
+	return ptr;
+}
+
+void* operator new(std::size_t, void* ptr) noexcept
+{
+	return ptr;
+}
+
+void* operator new[](std::size_t, void* ptr) noexcept
+{
+	return ptr;
+}
+
 void operator delete(void* ptr) noexcept
 {
 	kernel::memory_manager::instance->deallocate(ptr);
@@ -60,3 +82,12 @@ void operator delete[](void* ptr) noexcept
 	kernel::memory_manager::instance->deallocate(ptr);
 }
 
+void operator delete(void* ptr, std::size_t) noexcept
+{
+	kernel::memory_manager::instance->deallocate(ptr);
+}
+
+void operator delete[](void* ptr, std::size_t) noexcept
+{
+	kernel::memory_manager::instance->deallocate(ptr);
+}
