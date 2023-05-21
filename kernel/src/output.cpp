@@ -85,18 +85,16 @@ namespace kernel
 			move_cursor(cursor_x, cursor_y);
 	}
 
-	void output::scroll(uint8_t const& lines)
+	void output::scroll()
 	{
-		std::memcpy(VGA_ADDRESS, VGA_ADDRESS + VGA_WIDTH, VGA_WIDTH * (VGA_HEIGHT - 1));
+		wchar_t screen_copy[VGA_WIDTH * VGA_HEIGHT] = { ' ' | 7 << 8 };
+		std::memcpy(screen_copy, VGA_ADDRESS + VGA_WIDTH, VGA_WIDTH * (VGA_HEIGHT - 1) * sizeof(wchar_t));
+		std::memcpy(VGA_ADDRESS, screen_copy, VGA_WIDTH * VGA_HEIGHT * sizeof(wchar_t));
 
+		delete screen_copy;
+
+		cursor_y--;
 		cursor_x = 0;
-		cursor_y -= lines;
-
-		if (cursor_y < 0)
-			cursor_y = 0;
-
-		for (uint8_t i = 0; i < lines; i++)
-			VGA_ADDRESS[(VGA_HEIGHT - 1) * VGA_WIDTH + i] = ' ' | (7 << 8);
 
 		move_cursor(cursor_x, cursor_y);
 	}
