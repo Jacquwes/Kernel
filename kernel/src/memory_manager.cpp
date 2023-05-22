@@ -81,6 +81,10 @@ namespace kernel
 
 	void* memory_manager::allocate(std::size_t size)
 	{
+		logger::log(debug, "Memory manager > Allocating %x bytes.", size);
+
+		display_pages();
+
 		memory_page* result = nullptr;
 
 		memory_page* i = first_page;
@@ -94,6 +98,14 @@ namespace kernel
 			if (i->next)
 				i = i->next;
 		} while (i->next && !result);
+
+		if (!result)
+		{
+			logger::log(error, "Memory manager > Error during allocation: not enough memory.");
+			return nullptr;
+		}
+
+		logger::log(debug, "Memory manager > Found page at %x.", result);
 
 		memory_page* temp_next = result->next;
 		std::size_t temp_length = result->length;
@@ -109,11 +121,19 @@ namespace kernel
 		if (result->next->next)
 			result->next->next->previous = result->next;
 
+		display_pages();
+
+		logger::log(debug, "Memory manager > Allocated %x bytes at %x.", size, result);
+
 		return (char*)result + sizeof(memory_page);
 	}
 
 	void memory_manager::deallocate(void* ptr)
 	{
+		logger::log(debug, "Memory manager > Deallocating %x.", ptr);
+
+		display_pages();
+
 		memory_page* i = first_page;
 
 		while (i && ptr - sizeof(memory_page) != i)
@@ -144,5 +164,9 @@ namespace kernel
 		}
 
 		i->allocated = false;
+
+		display_pages();
+
+		logger::log(debug, "Memory manager > Deallocated %x.", ptr);
 	}
 }
