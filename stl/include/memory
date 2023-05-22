@@ -1,5 +1,7 @@
 #pragma once
 
+#include "logger.h"
+
 #include <cstddef>
 #include <cstdio>
 #include <limits>
@@ -53,7 +55,7 @@ namespace std
 		{
 			if (std::numeric_limits<std::size_t>::max() / sizeof(value_type) < size)
 			{
-				std::printf("std::allocate: Size %x too large. Maximum is %x.\n", size, std::numeric_limits<std::size_t>::max() / sizeof(value_type));
+				kernel::logger::log(kernel::debug, "std::allocate: Size %x too large. Maximum is %x.\n", size, std::numeric_limits<std::size_t>::max() / sizeof(value_type));
 				return nullptr;
 			}
 
