@@ -29,21 +29,14 @@ namespace std
 #pragma endregion
 #pragma region Member functions
 
-		constexpr vector() noexcept(noexcept(Allocator()))
-			: vector(Allocator()) {}
-		constexpr explicit vector(Allocator const& alloc) noexcept
-			: vector(0, alloc) {}
-		constexpr vector(size_type count, T const& value, Allocator const& alloc = Allocator())
-			: vector(count, alloc)
+		constexpr vector() noexcept(noexcept(Allocator())) : vector(Allocator()) {}
+		constexpr explicit vector(Allocator const& alloc) noexcept : vector(0, alloc) {}
+		constexpr vector(size_type count, T const& value, Allocator const& alloc = Allocator()) : vector(count, alloc)
 		{
 			for (size_type i = 0; i < count; ++i)
 				allocator_traits<Allocator>::construct(allocator, data + i, value);
 		}
-		constexpr explicit vector(size_type count, Allocator const& alloc = Allocator())
-			: allocator(alloc),
-			size(count),
-			capacity(count),
-			data(allocator_traits<Allocator>::allocate(allocator, count))
+		constexpr explicit vector(size_type count, Allocator const& alloc = Allocator()) : allocator(alloc), size(count), capacity(count), data(allocator_traits<Allocator>::allocate(allocator, count))
 		{
 			for (size_type i = 0; i < count; ++i)
 				allocator_traits<Allocator>::construct(allocator, data + i);
@@ -80,6 +73,8 @@ namespace std
 
 		constexpr void reserve(size_type new_cap)
 		{
+			kernel::logger::log(kernel::debug, "vector::reserve > new_cap: %d, capacity: %d", new_cap, capacity);
+
 			if (new_cap > capacity)
 			{
 				pointer new_data = allocator_traits<Allocator>::allocate(allocator, new_cap);
@@ -102,10 +97,15 @@ namespace std
 
 		constexpr void push_back(T const& value)
 		{
+			kernel::logger::log(kernel::debug, "vector::push_back > size: %d, capacity: %d", size, capacity);
+
 			if (size == capacity)
 				reserve(size + 1);
 
 			allocator_traits<Allocator>::construct(allocator, data + size, value);
+
+			kernel::logger::log(kernel::debug, "vector::data[%d] > %d", size, *(data + size));
+
 			++size;
 		}
 
