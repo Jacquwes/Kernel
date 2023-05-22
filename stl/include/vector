@@ -100,7 +100,7 @@ namespace std
 			kernel::logger::log(kernel::debug, "vector::push_back > size: %d, capacity: %d", size, capacity);
 
 			if (size == capacity)
-				reserve(size + 1);
+				reserve(size * 2);
 
 			allocator_traits<Allocator>::construct(allocator, data + size, value);
 
