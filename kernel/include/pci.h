@@ -136,6 +136,9 @@ namespace kernel
 
 	struct pci_command_register
 	{
+		pci_command_register() = default;
+		pci_command_register(uint16_t value);
+
 		// Respond to I/O space accesses
 		uint16_t io_space : 1;
 		// Respond to memory space accesses
@@ -160,6 +163,9 @@ namespace kernel
 
 	struct pci_status_register
 	{
+		pci_status_register() = default;
+		pci_status_register(uint16_t value);
+
 		uint16_t reserved0 : 3;
 		// Device's INTx# signal
 		uint16_t interrupt_status : 1;
@@ -188,21 +194,27 @@ namespace kernel
 
 	struct memory_space_base_address_register
 	{
+		memory_space_base_address_register() = default;
+
 		uint32_t always_0 : 1;
 		uint32_t type : 2;
 		uint32_t prefetchable : 1;
 		uint32_t base_address : 28;
-	};
+	} __attribute__((packed));
 
 	struct io_space_base_address_register
 	{
+		io_space_base_address_register() = default;
+
 		uint32_t always_1 : 1;
 		uint32_t reserved : 1;
 		uint32_t base_address : 30;
-	};
+	} __attribute__((packed));
 
 	struct pci_device_header
 	{
+		pci_device_header() = default;
+
 		uint16_t vendor_id;
 		uint16_t device_id;
 
@@ -222,6 +234,8 @@ namespace kernel
 
 	struct pci_device_0x0
 	{
+		pci_device_0x0() = default;
+
 		pci_device_header header;
 
 		memory_space_base_address_register base_address_register_0;
@@ -251,6 +265,8 @@ namespace kernel
 
 	struct pci_device_0x1
 	{
+		pci_device_0x1() = default;
+
 		pci_device_header header;
 
 		memory_space_base_address_register base_address_register_0;
@@ -289,6 +305,8 @@ namespace kernel
 
 	struct pci_device_0x2
 	{
+		pci_device_0x2() = default;
+
 		pci_device_header header;
 
 		uint32_t cardbus_socket_exca_base_address;
@@ -323,6 +341,8 @@ namespace kernel
 
 	struct pci_device
 	{
+		pci_device() = default;
+
 		pci_device_header header;
 
 		uint8_t bus;

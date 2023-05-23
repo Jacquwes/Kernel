@@ -60,6 +60,12 @@ namespace kernel
 
 
 
+
+	pci_command_register::pci_command_register(uint16_t value)
+	{
+		*this = value;
+	}
+
 	pci_command_register pci_manager::get_command(uint32_t bus, uint32_t device, uint32_t function)
 	{
 		return (pci_command_register)read(bus, device, function, 0x04);
@@ -68,6 +74,13 @@ namespace kernel
 	pci_status_register pci_manager::get_status(uint32_t bus, uint32_t device, uint32_t function)
 	{
 		return (pci_status_register)read(bus, device, function, 0x06);
+	}
+
+
+
+	pci_status_register::pci_status_register(uint16_t value)
+	{
+		*this = value;
 	}
 
 

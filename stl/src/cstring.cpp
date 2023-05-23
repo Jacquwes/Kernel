@@ -7,7 +7,7 @@ namespace std
 	{
 		for (size_t i = 0; i < count; i++)
 		{
-			*(uint8_t*)(destination + i) = *(uint8_t*)(source + i);
+			*(uint8_t*)((uint8_t*)destination + i) = *(uint8_t*)((uint8_t*)source + i);
 		}
 
 		return destination;
@@ -17,7 +17,7 @@ namespace std
 	{
 		for (size_t i = 0; i < count; i++)
 		{
-			*(uint8_t*)(destination + i) = (uint8_t)value;
+			*(uint8_t*)((uint8_t*)destination + i) = (uint8_t)value;
 		}
 
 		return destination;

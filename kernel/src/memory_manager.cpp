@@ -132,7 +132,7 @@ namespace kernel
 
 		memory_page* i = first_page;
 
-		while (i && ptr - sizeof(memory_page) != i)
+		while (i && (uint8_t*)ptr - sizeof(memory_page) != (uint8_t*)i)
 			i = i->next;
 
 		if (!i)
