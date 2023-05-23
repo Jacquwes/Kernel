@@ -13,8 +13,14 @@ namespace std
 	};
 
 	template <>
-	inline constexpr std::size_t numeric_limits<std::size_t>::max() noexcept
+	inline constexpr size_t numeric_limits<size_t>::max() noexcept
 	{
 		return SIZE_MAX;
+	}
+
+	template <>
+	inline constexpr ptrdiff_t numeric_limits<ptrdiff_t>::max() noexcept
+	{
+		return PTRDIFF_MAX;
 	}
 }
