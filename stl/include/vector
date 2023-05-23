@@ -34,89 +34,265 @@ namespace std
 		constexpr vector(size_type count, T const& value, Allocator const& alloc = Allocator()) : vector(count, alloc)
 		{
 			for (size_type i = 0; i < count; ++i)
-				allocator_traits<Allocator>::construct(allocator, data + i, value);
+				allocator_traits<Allocator>::construct(_allocator, _data + i, value);
 		}
-		constexpr explicit vector(size_type count, Allocator const& alloc = Allocator()) : allocator(alloc), size(count), capacity(count), data(allocator_traits<Allocator>::allocate(allocator, count))
+		constexpr explicit vector(size_type count, Allocator const& alloc = Allocator()) : _allocator(alloc), _size(count), _capacity(count), _data(allocator_traits<Allocator>::allocate(_allocator, count))
 		{
 			for (size_type i = 0; i < count; ++i)
-				allocator_traits<Allocator>::construct(allocator, data + i);
+				allocator_traits<Allocator>::construct(_allocator, _data + i);
 		}
 
 		constexpr ~vector()
 		{
-			for (size_type i = 0; i < size; ++i)
-				allocator_traits<Allocator>::destroy(allocator, data + i);
-			allocator_traits<Allocator>::deallocate(allocator, data, size);
+			for (size_type i = 0; i < _size; ++i)
+				allocator_traits<Allocator>::destroy(_allocator, _data + i);
+			allocator_traits<Allocator>::deallocate(_allocator, _data, _size);
 		}
 
 #pragma region Member access
 
-		constexpr reference at(size_type pos)
-		{
-			if (pos >= size)
-				kernel::logger::log(kernel::error, "vector::at > %d is out of range.");
+		constexpr reference at(size_type pos) { return _data[pos]; }
+		constexpr const_reference at(size_type pos) const { return _data[pos]; }
 
-			return data[pos];
-		}
+		constexpr reference operator[](size_type pos) { return _data[pos]; }
+		constexpr const_reference operator[](size_type pos) const { return _data[pos]; }
 
-		constexpr const_reference at(size_type pos) const
-		{
-			if (pos >= size)
-				kernel::logger::log(kernel::error, "vector::at > %d is out of range.");
+		constexpr reference front() { return _data[0]; }
+		constexpr const_reference front() const { return _data[0]; }
 
-			return data[pos];
-		}
+		constexpr reference back() { return _data[_size - 1]; }
+		constexpr const_reference back() const { return _data[_size - 1]; }
+
+		constexpr pointer data() noexcept { return _data; }
+		constexpr const_pointer data() const noexcept { return _data; }
+
+#pragma endregion
+
+#pragma region Iterators
+
+		constexpr iterator begin() noexcept { return _data; }
+		constexpr const_iterator begin() const noexcept { return _data; }
+		constexpr const_iterator cbegin() const noexcept { return _data; }
+
+		constexpr iterator end() noexcept { return _data + _size; }
+		constexpr const_iterator end() const noexcept { return _data + _size; }
+		constexpr const_iterator cend() const noexcept { return _data + _size; }
+
+		constexpr reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
+		constexpr const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
+		constexpr const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator(end()); }
+
+		constexpr reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
+		constexpr const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
+		constexpr const_reverse_iterator crend() const noexcept { return const_reverse_iterator(begin()); }
 
 #pragma endregion
 
 #pragma region Capacity
 
-		constexpr void reserve(size_type new_cap)
-		{
-			kernel::logger::log(kernel::debug, "vector::reserve > new_cap: %d, capacity: %d", new_cap, capacity);
-
-			if (new_cap > capacity)
-			{
-				pointer new_data = allocator_traits<Allocator>::allocate(allocator, new_cap);
-
-				for (size_type i = 0; i < size; ++i)
-					allocator_traits<Allocator>::construct(allocator, new_data + i, data[i]);
-				for (size_type i = 0; i < size; ++i)
-					allocator_traits<Allocator>::destroy(allocator, data + i);
-
-				allocator_traits<Allocator>::deallocate(allocator, data, size);
-
-				data = new_data;
-				capacity = new_cap;
-			}
-		}
+		constexpr bool empty() const noexcept { return _size == 0; }
+		constexpr size_type size() const noexcept { return _size; }
+		constexpr size_type max_size() const noexcept { return numeric_limits<difference_type>::max(); }
+		constexpr void reserve(size_type new_cap);
+		constexpr size_type capacity() const noexcept { return _capacity; }
+		constexpr void shrink_to_fit();
 
 #pragma endregion
 
 #pragma region Modifiers
 
-		constexpr void push_back(T const& value)
-		{
-			kernel::logger::log(kernel::debug, "vector::push_back > size: %d, capacity: %d", size, capacity);
-
-			if (size == capacity)
-				reserve(size == 0 ? 1 : size * 2);
-
-			allocator_traits<Allocator>::construct(allocator, data + size, value);
-
-			kernel::logger::log(kernel::debug, "vector::data[%d] > %d", size, *(data + size));
-
-			++size;
-		}
+		constexpr void clear() noexcept { resize(0); }
+		constexpr iterator insert(const_iterator pos, T const& value);
+		constexpr iterator insert(const_iterator pos, T&& value);
+		constexpr iterator insert(const_iterator pos, size_type count, T const& value);
+		template <typename... Args>
+		constexpr iterator erase(const_iterator pos);
+		constexpr void push_back(T const& value);
+		constexpr void push_back(T&& value);
+		constexpr void pop_back();
+		constexpr void resize(size_type count);
+		constexpr void resize(size_type count, T const& value);
 
 #pragma endregion
 
 #pragma endregion
 
 	private:
-		Allocator allocator;
-		size_type size;
-		size_type capacity;
-		pointer data;
+		Allocator _allocator;
+		size_type _size;
+		size_type _capacity;
+		pointer _data;
 	};
+
+
+
+#pragma region Implementation
+
+	template<typename T, typename Allocator>
+	inline constexpr void vector<T, Allocator>::shrink_to_fit()
+	{
+		kernel::logger::log(kernel::debug, "vector::shrink_to_fit > size: %d, _capacity: %d", _size, _capacity);
+
+		if (_size == _capacity)
+			return;
+
+		pointer new_data = allocator_traits<Allocator>::allocate(_allocator, _size);
+
+		for (size_type i = 0; i < _size; ++i)
+			allocator_traits<Allocator>::construct(_allocator, new_data + i, _data[i]);
+
+		for (size_type i = 0; i < _size; ++i)
+			allocator_traits<Allocator>::destroy(_allocator, data + i);
+
+		allocator_traits<Allocator>::deallocate(_allocator, data, _capacity);
+
+		data = new_data;
+		_capacity = _size;
+	}
+
+	template<typename T, typename Allocator>
+	inline constexpr void vector<T, Allocator>::push_back(T const& value)
+	{
+		kernel::logger::log(kernel::debug, "vector::push_back > size: %d, _capacity: %d", _size, _capacity);
+
+		if (_size == _capacity)
+			reserve(_size == 0 ? 1 : _size * 2);
+
+		allocator_traits<Allocator>::construct(_allocator, _data + _size, value);
+
+		++_size;
+	}
+
+	template<typename T, typename Allocator>
+	inline constexpr void std::vector<T, Allocator>::push_back(T&& value)
+	{
+		kernel::logger::log(kernel::debug, "vector::push_back > size: %d, _capacity: %d", _size, _capacity);
+
+		if (_size == _capacity)
+			reserve(_size == 0 ? 1 : _size * 2);
+
+		allocator_traits<Allocator>::construct(_allocator, _data + _size, move(value));
+
+		++_size;
+	}
+
+	template<typename T, typename Allocator>
+	inline constexpr void vector<T, Allocator>::reserve(size_type new_cap)
+	{
+		kernel::logger::log(kernel::debug, "vector::reserve > new_cap: %d, _capacity: %d", new_cap, _capacity);
+
+		if (new_cap <= _capacity)
+			return;
+
+		pointer new_data = allocator_traits<Allocator>::allocate(_allocator, new_cap);
+
+		for (size_type i = 0; i < _size; ++i)
+			allocator_traits<Allocator>::construct(_allocator, new_data + i, _data[i]);
+		for (size_type i = 0; i < _size; ++i)
+			allocator_traits<Allocator>::destroy(_allocator, _data + i);
+
+		allocator_traits<Allocator>::deallocate(_allocator, _data, _size);
+
+		_data = new_data;
+		_capacity = new_cap;
+	}
+
+	template<typename T, typename Allocator>
+	inline constexpr std::vector<T, Allocator>::iterator std::vector<T, Allocator>::insert(const_iterator pos, T const& value)
+	{
+		kernel::logger::log(kernel::debug, "vector::insert > pos: %d, value: %d, _size: %d, _capacity: %d", pos, value, _size, _capacity);
+
+		if (_size == _capacity)
+			reserve(_size == 0 ? 1 : _size * 2);
+
+		iterator it = _data + (pos - _data);
+
+		for (iterator i = _data + _size; i != it; --i)
+			*i = *(i - 1);
+
+		*it = value;
+
+		++_size;
+
+		return it;
+	}
+
+	template<typename T, typename Allocator>
+	inline constexpr std::vector<T, Allocator>::iterator std::vector<T, Allocator>::insert(const_iterator pos, T&& value)
+	{
+		kernel::logger::log(kernel::debug, "vector::insert > pos: %d, value: %d, _size: %d, _capacity: %d", pos, value, _size, _capacity);
+
+		if (_size == _capacity)
+			reserve(_size == 0 ? 1 : _size * 2);
+
+		iterator it = _data + (pos - _data);
+
+		for (iterator i = _data + _size; i != it; --i)
+			*i = *(i - 1);
+
+		*it = std::move(value);
+
+		++_size;
+
+		return it;
+	}
+
+	template<typename T, typename Allocator>
+	inline constexpr vector<T, Allocator>::iterator vector<T, Allocator>::insert(const_iterator pos, size_type count, T const& value)
+	{
+		kernel::logger::log(kernel::debug, "vector::insert > pos: %d, count: %d, value: %d, _size: %d, _capacity: %d", pos, count, value, _size, _capacity);
+
+		if (_size + count > _capacity)
+			reserve(_size + count);
+
+		iterator it = _data + (pos - _data);
+
+		for (iterator i = _data + _size + count - 1; i != it + count - 1; --i)
+			*i = *(i - count);
+
+		for (iterator i = it; i != it + count; ++i)
+			*i = value;
+
+		_size += count;
+
+		return it;
+	}
+
+	template<typename T, typename Allocator>
+	inline constexpr void vector<T, Allocator>::resize(size_type count)
+	{
+		kernel::logger::log(kernel::debug, "vector::resize > count: %d, _size: %d, _capacity: %d", count, _size, _capacity);
+
+		if (count > _capacity)
+			reserve(count);
+
+		if (count > _size)
+			for (size_type i = _size; i < count; ++i)
+				allocator_traits<Allocator>::construct(_allocator, _data + i);
+		else
+			for (size_type i = count; i < _size; ++i)
+				allocator_traits<Allocator>::destroy(_allocator, _data + i);
+
+		_size = count;
+	}
+
+	template<typename T, typename Allocator>
+	inline constexpr void vector<T, Allocator>::resize(size_type count, T const& value)
+	{
+		kernel::logger::log(kernel::debug, "vector::resize > count: %d, value: %d, _size: %d, _capacity: %d", count, value, _size, _capacity);
+
+		if (count > _capacity)
+			reserve(count);
+
+		if (count > _size)
+			for (size_type i = _size; i < count; ++i)
+				allocator_traits<Allocator>::construct(_allocator, _data + i, value);
+		else
+			for (size_type i = count; i < _size; ++i)
+				allocator_traits<Allocator>::destroy(_allocator, _data + i);
+
+		_size = count;
+	}
+
+#pragma endregion
 }

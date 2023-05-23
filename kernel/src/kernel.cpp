@@ -30,18 +30,8 @@ void main(multiboot_info_t* info, uint32_t magic)
 	v.push_back('3');
 	v.push_back('4');
 
-	std::vector<char> v2 = v;
-
-	v2.push_back('5');
-	v2.push_back('6');
-	v2.push_back('7');
-	v2.push_back('8');
-
-	for (int i = 0; i < 4; i++)
-		std::printf("Vector > Element %d: %c\n", i, v.at(i));
-
-	for (int i = 0; i < 4; i++)
-		std::printf("Vector > Element %d: %c\n", i, v2.at(i));
+	for (auto& e : v)
+		std::printf("Vector > Element %c\n", e);
 
 	mem.display_pages();
 
