@@ -16,19 +16,24 @@ void main(multiboot_info_t* info, uint32_t magic)
 	kernel::logger::set_canals(kernel::log_canal::all);
 	kernel::vga_output();
 	kernel::serial_output();
-	kernel::memory_manager(info, magic);
+	auto mem = kernel::memory_manager(info, magic);
+	mem.display_pages();
 	kernel::global_descriptor_table();
 	kernel::interrupt_descriptor_table();
 	kernel::keyboard_manager();
 	kernel::pci_manager();
 
-	std::vector<char> test;
-	test.push_back('t');
-	test.push_back('e');
-	test.push_back('s');
-	test.push_back('t');
+	std::vector<char> v;
 
-	std::printf("vector.at(2) = %c\n", test.at(2));
+	v.push_back('1');
+	v.push_back('2');
+	v.push_back('3');
+	v.push_back('4');
+
+	for (auto& e : v)
+		std::printf("Vector > Element %c\n", e);
+
+	mem.display_pages();
 
 	for (;;)
 		__asm__ volatile ("hlt");
