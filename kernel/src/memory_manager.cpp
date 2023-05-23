@@ -83,8 +83,6 @@ namespace kernel
 	{
 		logger::log(debug, "Memory manager > Allocating %x bytes.", size);
 
-		display_pages();
-
 		memory_page* result = nullptr;
 
 		memory_page* i = first_page;
@@ -131,8 +129,6 @@ namespace kernel
 	void memory_manager::deallocate(void* ptr)
 	{
 		logger::log(debug, "Memory manager > Deallocating %x.", ptr);
-
-		display_pages();
 
 		memory_page* i = first_page;
 
