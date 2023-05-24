@@ -1,0 +1,97 @@
+#pragma once
+
+#include <array>
+#include <cstdint>
+#include <string>
+
+namespace std
+{
+	class locale
+	{
+	public:
+		class id;
+		class facet;
+		typedef int category;
+
+		friend class facet;
+
+	public:
+		static constexpr category none = 0x0000;
+		static constexpr category collate = 0x0001;
+		static constexpr category ctype = 0x0002;
+		static constexpr category monetary = 0x0004;
+		static constexpr category numeric = 0x0008;
+		static constexpr category time = 0x0010;
+		static constexpr category messages = 0x0020;
+		static constexpr category all = collate | ctype | monetary | numeric | time | messages;
+
+	public:
+		locale() noexcept;
+		locale(locale const& other) noexcept;
+		explicit locale(const char* std_name);
+		explicit locale(string const& std_name);
+		locale(locale const& other, const char* std_name, category cat);
+		locale(locale const& other, string const& std_name, category cat);
+		template <typename Facet>
+		locale(locale const& other, Facet* f);
+		locale(locale const& other, locale const& one, category cat);
+		~locale();
+
+		const locale& operator=(locale const& other) noexcept;
+
+		template <typename Facet>
+		locale combine(locale const& other) const;
+
+		string name() const;
+
+		bool operator ==(locale const& other) const;
+
+		template <
+			typename CharT,
+			typename Traits,
+			typename Allocator
+		> bool operator ()(
+			basic_string<CharT, Traits, Allocator> const& left,
+			basic_string<CharT, Traits, Allocator> const& right
+			) const;
+
+		static locale global(locale const& loc);
+		static locale const& classic();
+
+	private:
+		locale(string const& str, category cat);
+
+		string _name;
+	};
+
+	class locale::id
+	{
+		friend class locale;
+
+	public:
+		id() = default;
+		id(id const& other) = delete;
+		id& operator=(id const& other) = delete;
+
+	private:
+		static size_t _id_count;
+		size_t _id;
+	};
+
+	class locale::facet
+	{
+		friend class locale;
+
+	public:
+		explicit facet(size_t refs = 0) : _refs(refs) {}
+		facet(facet const& other) = delete;
+
+		facet& operator=(facet const& other) = delete;
+
+	protected:
+		virtual ~facet() = default;
+
+	private:
+		size_t _refs;
+	};
+}
