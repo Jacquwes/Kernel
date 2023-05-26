@@ -62,6 +62,13 @@ namespace std
 		locale(string const& str, category cat);
 
 		string _name;
+
+		facet* _collate;
+		facet* _ctype;
+		facet* _monetary;
+		facet* _numeric;
+		facet* _time;
+		facet* _messages;
 	};
 
 	class locale::id
