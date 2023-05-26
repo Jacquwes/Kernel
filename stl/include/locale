@@ -90,7 +90,7 @@ namespace std
 		friend class locale;
 
 	public:
-		explicit facet(size_t refs = 0) : _refs(refs) {}
+		explicit facet(size_t refs = 0);
 		facet(facet const& other) = delete;
 
 		facet& operator=(facet const& other) = delete;
@@ -103,6 +103,43 @@ namespace std
 	};
 
 	template <typename CharT>
+	class collate : public locale::facet
+	{
+	public:
+		typedef CharT char_type;
+		typedef basic_string<char_type> string_type;
+
+		explicit collate(size_t refs = 0);
+		int compare(const char_type* low1, const char_type* high1, const char_type* low2, const char_type* high2) const;
+		string_type transform(const char_type* low, const char_type* high) const;
+		long hash(const char_type* beg, const char_type* end) const;
+
+	protected:
+		virtual ~collate() = default;
+		virtual int do_compare(const char_type* low1, const char_type* high1, const char_type* low2, const char_type* high2) const;
+		virtual string_type do_transform(const char_type* low, const char_type* high) const;
+		virtual long do_hash(const char_type* beg, const char_type* end) const;
+	};
+
+	class ctype_base
+	{
+	public:
+		typedef uint32_t mask;
+
+		static constexpr mask space = 0x0001;
+		static constexpr mask print = 0x0002;
+		static constexpr mask cntrl = 0x0004;
+		static constexpr mask upper = 0x0008;
+		static constexpr mask lower = 0x0010;
+		static constexpr mask alpha = 0x0020;
+		static constexpr mask digit = 0x0040;
+		static constexpr mask punct = 0x0080;
+		static constexpr mask xdigit = 0x0100;
+		static constexpr mask blank = 0x0200;
+		static constexpr mask alnum = alpha | digit;
+		static constexpr mask grapsh = alnum | punct;
+	};
+
 	template <typename CharT>
 	class ctype : public locale::facet, public ctype_base
 	{
