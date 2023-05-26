@@ -15,21 +15,21 @@ namespace std
 
 	ios_base::fmtflags ios_base::flags(fmtflags fmtfl)
 	{
-		ios_base tmp_flags = _fmtflags;
+		ios_base::fmtflags tmp_flags = _fmtflags;
 		_fmtflags = fmtfl;
 		return tmp_flags;
 	}
 
 	ios_base::fmtflags ios_base::setf(fmtflags fmtfl)
 	{
-		ios_base tmp_flags = _fmtflags;
+		ios_base::fmtflags tmp_flags = _fmtflags;
 		_fmtflags |= fmtfl;
 		return tmp_flags;
 	}
 
 	ios_base::fmtflags ios_base::setf(fmtflags fmtfl, fmtflags mask)
 	{
-		ios_base tmp_flags = _fmtflags;
+		ios_base::fmtflags tmp_flags = _fmtflags;
 		_fmtflags = (_fmtflags & ~mask) | (fmtfl & mask);
 		return tmp_flags;
 	}

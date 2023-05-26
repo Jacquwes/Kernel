@@ -34,7 +34,7 @@ namespace std
 		static constexpr fmtflags uppercase = 0x4000;
 
 		ios_base(ios_base const&) = delete;
-		virtual ~ios_base() = default;
+		virtual ~ios_base();
 		ios_base& operator=(ios_base const&) = delete;
 
 		fmtflags flags() const;
