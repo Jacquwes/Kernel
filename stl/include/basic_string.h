@@ -75,6 +75,20 @@ namespace std
 		}
 
 		inline constexpr allocator_type get_allocator() const noexcept { return _alloc; }
+
+		inline constexpr void push_back(CharType ch)
+		{
+			pointer new_data = _alloc.allocate(_size + 2);
+			memcpy(new_data, _data, _size);
+
+			new_data[_size] = ch;
+			new_data[_size + 1] = 0;
+
+			_alloc.deallocate(_data, _capacity + 1);
+			_data = new_data;
+			_size++;
+			_capacity++;
+		}
 #pragma endregion
 
 #pragma region Operators
