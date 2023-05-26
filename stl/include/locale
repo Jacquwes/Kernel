@@ -101,4 +101,90 @@ namespace std
 	private:
 		size_t _refs;
 	};
+
+	template <typename CharT>
+	template <typename CharT>
+	class ctype : public locale::facet, public ctype_base
+	{
+	public:
+		typedef CharT char_type;
+
+		explicit ctype(size_t refs = 0);
+
+		bool is(mask m, char_type c) const;
+		const char_type* is(const char_type* low, const char_type* high, mask* vec) const;
+		const char_type* scan_is(mask m, const char_type* low, const char_type* high) const;
+		const char_type* scan_not(mask m, const char_type* low, const char_type* high) const;
+		char_type toupper(char_type c) const;
+		const char_type* toupper(char_type* low, const char_type* high) const;
+		char_type tolower(char_type c) const;
+		const char_type* tolower(char_type* low, const char_type* high) const;
+		char_type widen(char c) const;
+		const char* widen(const char* low, const char* high, char_type* to) const;
+		char narrow(char_type c, char dfault) const;
+		const char_type* narrow(const char_type* low, const char_type* high, char dfault, char* to) const;
+
+	protected:
+		~ctype() = default;
+
+		virtual bool do_is(mask m, char_type c) const;
+		virtual const char_type* do_is(const char_type* low, const char_type* high, mask* vec) const;
+		const char_type* do_scan_is(mask m, const char_type* low, const char_type* high) const;
+		const char_type* do_scan_not(mask m, const char_type* low, const char_type* high) const;
+		char_type do_toupper(char_type c) const;
+		const char_type* do_toupper(char_type* low, const char_type* high) const;
+		char_type do_tolower(char_type c) const;
+		const char_type* do_tolower(char_type* low, const char_type* high) const;
+		char_type do_widen(char c) const;
+		const char* do_widen(const char* low, const char* high, char_type* to) const;
+		char do_narrow(char_type c, char dfault) const;
+		const char_type* do_narrow(const char_type* low, const char_type* high, char dfault, char* to) const;
+	};
+
+	template <>
+	class ctype<char> : public locale::facet, public ctype_base
+	{
+	public:
+		typedef char char_type;
+
+		static locale::id id;
+		static size_t const table_size = 0x100;
+
+		explicit ctype(const mask* tbl = 0, bool del = false, size_t refs = 0);
+
+		const mask* table() const noexcept;
+		static const mask* classic_table() noexcept;
+		bool is(mask m, char c) const;
+		const char* is(const char* low, const char* high, mask* vec) const;
+		const char* scan_is(mask m, const char* low, const char* high) const;
+		const char* scan_not(mask m, const char* low, const char* high) const;
+		char toupper(char c) const;
+		const char* toupper(char* low, const char* high) const;
+		char tolower(char c) const;
+		const char* tolower(char* low, const char* high) const;
+		char widen(char c) const;
+		const char* widen(const char* low, const char* high, char* to) const;
+		char narrow(char c, char dfault) const;
+		const char* narrow(const char* low, const char* high, char dfault, char* to) const;
+
+	protected:
+		~ctype();
+
+		virtual bool do_is(mask m, char c) const;
+		virtual const char* do_is(const char* low, const char* high, mask* vec) const;
+		virtual const char* do_scan_is(mask m, const char* low, const char* high) const;
+		virtual const char* do_scan_not(mask m, const char* low, const char* high) const;
+		virtual char do_toupper(char c) const;
+		virtual const char* do_toupper(char* low, const char* high) const;
+		virtual char do_tolower(char c) const;
+		virtual const char* do_tolower(char* low, const char* high) const;
+		virtual char do_widen(char c) const;
+		virtual const char* do_widen(const char* low, const char* high, char* to) const;
+		virtual char do_narrow(char c, char dfault) const;
+		virtual const char* do_narrow(const char* low, const char* high, char dfault, char* to) const;
+
+	private:
+		const mask* _table;
+		bool _deletable;
+	};
 }
