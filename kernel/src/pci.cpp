@@ -136,6 +136,8 @@ namespace kernel
 
 	void pci_manager::check_bus(uint32_t bus)
 	{
+		logger::log(debug, "PCI manager > Checking bus %d.", bus);
+
 		for (uint32_t device = 0; device < 32; device++)
 		{
 			if (get_vendor_id(bus, device, 0) == 0xffff)
@@ -167,7 +169,7 @@ namespace kernel
 		uint8_t programming_interface = get_programming_interface(bus, _device, function);
 		uint8_t header_type = get_header_type(bus, _device, function);
 
-		pci_device device;
+		pci_device device{};
 		device.bus = bus;
 		device.device = _device;
 		device.function = function;
@@ -198,11 +200,18 @@ namespace kernel
 
 	void pci_manager::enumerate_buses()
 	{
+		logger::log(debug, "PCI manager > Enumerating PCI buses...");
+
 		pci_device_count = 0;
 
 		uint8_t header_type = get_header_type(0, 0, 0);
+
+		logger::log(debug, "PCI manager > Header type: %x", header_type);
+
 		// If bit 7 is set, the device has multiple functions; otherwise, it is a single function device.
 		uint8_t function_count = (header_type & 0x80) ? 8 : 1;
+
+		logger::log(debug, "PCI manager > Function count: %d", function_count);
 
 		if (function_count == 1)
 		{
